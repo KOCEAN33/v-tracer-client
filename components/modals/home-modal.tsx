@@ -17,8 +17,7 @@ import { useHomeModal } from '@/hooks/use-home-modal';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'react-hot-toast';
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -26,12 +25,11 @@ const formSchema = z.object({
 
 export const HomeModal = () => {
   const homeModal = useHomeModal();
-  const { toast } = useToast();
 
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    toast({ variant: 'destructive', title: values.name, description: '성공' });
+    toast.success('Success');
   };
 
   const form = useForm<z.infer<typeof formSchema>>({

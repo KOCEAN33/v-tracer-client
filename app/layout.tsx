@@ -1,10 +1,10 @@
 import './globals.css';
-import { Inter, Noto_Sans_KR } from 'next/font/google';
+import { Noto_Sans_KR } from 'next/font/google';
 import { ModalProvider } from '@/providers/home-modal-provider';
-import { Toaster } from '@/components/ui/toaster';
+import { ToastProvider } from '@/providers/toast-provider';
 
 const notoSansKR = Noto_Sans_KR({ weight: '400', subsets: ['latin'] });
-const inter = Inter({ subsets: ['latin'] });
+// const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'Create Next App',
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={notoSansKR.className}>
-        <Toaster />
+        <ToastProvider />
         <ModalProvider />
         {children}
       </body>
