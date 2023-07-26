@@ -1,6 +1,7 @@
 'use client';
 
 import { useHomeModal } from '@/hooks/use-home-modal';
+
 import { useEffect } from 'react';
 
 const Home = () => {

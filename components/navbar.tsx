@@ -1,17 +1,23 @@
-import Container from '@/components/ui/container';
+'use client';
+
 import Link from 'next/link';
 
-const Navbar = async () => {
+import { ComboboxDropdownMenu } from '@/components/user-menu';
+import Container from '@/components/container';
+
+const Navbar = () => {
   return (
-    <div className="border-b">
-      <Container>
-        <div className="relative flex h-16 items-center px-4 sm:px-6 lg:px-8">
+    <Container>
+      <div className="border-b-[1px]">
+        <div className="z-40 flex h-16 items-center justify-between px-4">
           <Link href="/" className="ml-4 flex gap-x-2 lg:ml-0">
-            <p className="text-xl font-bold">SAAS by VSC</p>
+            <p className="text-xl font-bold">S3C</p>
           </Link>
+
+          <ComboboxDropdownMenu />
         </div>
-      </Container>
-    </div>
+      </div>
+    </Container>
   );
 };
 

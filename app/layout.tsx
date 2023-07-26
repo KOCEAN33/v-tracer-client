@@ -1,10 +1,9 @@
 import './globals.css';
-import { Noto_Sans_KR } from 'next/font/google';
+import '../public/static/fonts/pretendardvariable.css';
+
+import Navbar from '@/components/navbar';
 import { ModalProvider } from '@/providers/home-modal-provider';
 import { ToastProvider } from '@/providers/toast-provider';
-
-const notoSansKR = Noto_Sans_KR({ weight: '400', subsets: ['latin'] });
-// const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,10 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={notoSansKR.className}>
+    <html lang="kr">
+      <body>
+        <Navbar />
         <ToastProvider />
         <ModalProvider />
+
         {children}
       </body>
     </html>
