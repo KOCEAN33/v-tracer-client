@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { ComboboxDropdownMenu } from '@/components/user-menu';
+import { ComboboxDropdownMenu } from '@/components/navbar/user-menu';
 import Container from '@/components/container';
 
 const Navbar = () => {

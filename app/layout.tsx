@@ -1,9 +1,9 @@
 import './globals.css';
 import '../public/static/fonts/pretendardvariable.css';
 
-import Navbar from '@/components/navbar';
 import { ModalProvider } from '@/providers/home-modal-provider';
 import { ToastProvider } from '@/providers/toast-provider';
+import { SiteHeader } from '@/components/navbar/site-header';
 
 export const metadata = {
   title: 'Create Next App',
@@ -16,9 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="kr">
+    <html lang="kr" suppressHydrationWarning>
       <body>
-        <Navbar />
+        <div className="relative flex flex-col">
+          <SiteHeader />
+        </div>
         <ToastProvider />
         <ModalProvider />
 

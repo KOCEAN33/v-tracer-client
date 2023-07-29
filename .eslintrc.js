@@ -8,6 +8,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'next',
+    'plugin:react/recommended',
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
   ],
@@ -25,6 +26,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'no-var': 'off',
     'prefer-const': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
   settings: {
     react: {

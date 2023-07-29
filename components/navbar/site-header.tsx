@@ -1,27 +1,27 @@
 import Link from 'next/link';
 
-import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { CommandMenu } from '@/components/command-menu';
+
 import { Icons } from '@/components/icons';
-import { MainNav } from '@/components/main-nav';
-import { MobileNav } from '@/components/mobile-nav';
-import { ModeToggle } from '@/components/mode-toggle';
-import { buttonVariants } from '@/registry/new-york/ui/button';
+import { MainNav } from '@/components/navbar/main-nav';
+
+import { buttonVariants } from '@/components/ui/button';
+import { config } from '@/common/config/config';
+import { UserAvatarMenu } from '@/components/navbar/user-menu';
 
 export function SiteHeader() {
   return (
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-14 items-center">
         <MainNav />
-        <MobileNav />
+        {/*<MobileNav />*/}
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
-            <CommandMenu />
+            {/*<CommandMenu />*/}
           </div>
           <nav className="flex items-center">
             <Link
-              href={siteConfig.links.github}
+              href={config.site.links.github}
               target="_blank"
               rel="noreferrer"
             >
@@ -38,7 +38,7 @@ export function SiteHeader() {
               </div>
             </Link>
             <Link
-              href={siteConfig.links.twitter}
+              href={config.site.links.twitter}
               target="_blank"
               rel="noreferrer"
             >
@@ -54,7 +54,8 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
-            <ModeToggle />
+            {/*<ModeToggle />*/}
+            <UserAvatarMenu />
           </nav>
         </div>
       </div>
