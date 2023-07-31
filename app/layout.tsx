@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="kr" suppressHydrationWarning>
+    <html lang="kr">
       <body>
         <div className="relative flex flex-col">
           <SiteHeader />

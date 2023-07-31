@@ -1,17 +1,15 @@
-import Container from '@/components/container';
-import { Sidebar } from '@/app/product/[productName]/components/sidebar';
-import { playlists } from '@/app/product/[productName]/data/playlists';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
+
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+
 import { AlbumArtwork } from '@/app/product/[productName]/components/album-artwork';
 import {
   listenNowAlbums,
   madeForYouAlbums,
 } from '@/app/product/[productName]/data/albums';
-import { product } from '@/app/product/[productName]/data/product';
+import { getProdcut } from '@/actions/getProduct';
 
 export interface ProductPageProps {
   params: {
@@ -24,7 +22,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     <>
       <div className="space-between flex items-center">
         <div className="space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">Listen Now</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">Overview</h2>
           <p className="text-sm text-muted-foreground">
             Top picks for you. Updated daily.
           </p>

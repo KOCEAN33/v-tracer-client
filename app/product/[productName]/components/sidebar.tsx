@@ -1,12 +1,13 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-
-import { cn } from '@/lib/utils';
-
-import { Product } from '@/app/product/[productName]/data/product';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+
+import { Button } from '@/components/ui/button';
+
+import { Product } from '@/app/product/[productName]/data/product';
+import InfoCard from '@/app/product/[productName]/components/info-card';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Product;
@@ -26,6 +27,8 @@ export function Sidebar({ className, product, params }: SidebarProps) {
   return (
     <div className={cn('pb-12', className)}>
       <div className="space-y-4 py-4">
+        <InfoCard product={product} />
+
         <div className="px-3 py-2">
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
             Information
@@ -101,6 +104,15 @@ export function Sidebar({ className, product, params }: SidebarProps) {
               </Button>
             </Link>
           </div>
+        </div>
+        <div className="mb-2 px-7 py-2">
+          <Link
+            href={`https://${product.url}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Button>Goto {product.name}</Button>
+          </Link>
         </div>
       </div>
     </div>

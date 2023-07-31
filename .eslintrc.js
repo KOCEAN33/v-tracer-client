@@ -27,6 +27,7 @@ module.exports = {
     'no-var': 'off',
     'prefer-const': 'off',
     'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
   },
   settings: {
     react: {
