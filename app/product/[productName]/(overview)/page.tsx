@@ -9,7 +9,6 @@ import {
   listenNowAlbums,
   madeForYouAlbums,
 } from '@/app/product/[productName]/data/albums';
-import { getProdcut } from '@/actions/getProduct';
 
 export interface ProductPageProps {
   params: {
