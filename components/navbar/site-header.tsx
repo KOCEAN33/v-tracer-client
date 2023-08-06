@@ -2,11 +2,10 @@ import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 
+import { config } from '@/common/config/config';
 import { Icons } from '@/components/icons';
 import { MainNav } from '@/components/navbar/main-nav';
-
 import { buttonVariants } from '@/components/ui/button';
-import { config } from '@/common/config/config';
 import { UserAvatarMenu } from '@/components/navbar/user-menu';
 import { ModeToggle } from '@/components/navbar/dark-mode-toggle';
 

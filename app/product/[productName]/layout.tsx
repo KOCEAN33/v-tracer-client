@@ -1,17 +1,14 @@
 import { Sidebar } from '@/app/product/[productName]/components/sidebar';
 import { product } from '@/app/product/[productName]/data/product';
 
-import Container from '@/components/container';
+import { Container } from '@/components/container';
 
 interface ProductLayoutProps {
   children: React.ReactNode;
   params: { productName: string };
 }
 
-export default function ProductLayout({
-  children,
-  params,
-}: ProductLayoutProps) {
+const ProductLayout: React.FC<ProductLayoutProps> = ({ children, params }) => {
   return (
     <Container>
       <div className="bg-background">
@@ -24,4 +21,6 @@ export default function ProductLayout({
       </div>
     </Container>
   );
-}
+};
+
+export default ProductLayout;

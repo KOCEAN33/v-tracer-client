@@ -1,12 +1,19 @@
 import { Button } from '@/components/ui/button';
-import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+
+import { PlusCircledIcon } from '@radix-ui/react-icons';
 
 import { SampleReviews } from '@/app/product/[productName]/data/review';
 import { ReviewCard } from '@/app/product/[productName]/reviews/components/review-card';
 
-export default function ProductReviewsPage({ params }) {
+interface ProductReviewsPageProps {
+  params: {
+    productName: string;
+  };
+}
+
+const ProductReviewsPage: React.FC<ProductReviewsPageProps> = ({ params }) => {
   const reviews = SampleReviews;
   const userId = '6494ed4bcdebc4eb4c615c25';
 
@@ -37,4 +44,6 @@ export default function ProductReviewsPage({ params }) {
       </div>
     </>
   );
-}
+};
+
+export default ProductReviewsPage;

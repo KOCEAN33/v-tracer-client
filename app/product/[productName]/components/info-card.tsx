@@ -1,15 +1,16 @@
 'use client';
 
-import { Product } from '@/app/product/[productName]/data/product';
+import Image from 'next/image';
 
 import { Separator } from '@/components/ui/separator';
-import Image from 'next/image';
+
+import { Product } from '@/app/product/[productName]/data/product';
 
 interface InfoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Product;
 }
 
-export default function InfoCard({ product }: InfoCardProps) {
+export const InfoCard: React.FC<InfoCardProps> = ({ product }) => {
   return (
     <>
       <div className="px-3 py-3">
@@ -32,4 +33,4 @@ export default function InfoCard({ product }: InfoCardProps) {
       </div>
     </>
   );
-}
+};

@@ -1,23 +1,18 @@
+import { useState } from 'react';
+import { MoreVertical } from 'lucide-react';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import * as React from 'react';
-import { MoreVertical } from 'lucide-react';
-
-export function ReviewDropdownMenu() {
-  const [open, setOpen] = React.useState(false);
+export const ReviewDropdownMenu = () => {
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="relative">
@@ -44,4 +39,4 @@ export function ReviewDropdownMenu() {
       </div>
     </div>
   );
-}
+};

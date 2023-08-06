@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 import { Product } from '@/app/product/[productName]/data/product';
-import InfoCard from '@/app/product/[productName]/components/info-card';
+import { InfoCard } from '@/app/product/[productName]/components/info-card';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Product;
@@ -16,7 +16,11 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   };
 }
 
-export function Sidebar({ className, product, params }: SidebarProps) {
+export const Sidebar: React.FC<SidebarProps> = ({
+  className,
+  product,
+  params,
+}) => {
   const pathname = usePathname();
   const sidePath = {
     overview: `/product/${params.productName}`,
@@ -107,14 +111,15 @@ export function Sidebar({ className, product, params }: SidebarProps) {
         </div>
         <div className="mb-2 px-7 py-2">
           <Link
-            href={`https://${product.url}`}
+            href="https://tries.io"
             rel="noopener noreferrer"
             target="_blank"
+            className="text-sm text-muted-foreground"
           >
-            <Button>Goto {product.name}</Button>
+            tries.io © 2023
           </Link>
         </div>
       </div>
     </div>
   );
-}
+};
