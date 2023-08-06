@@ -43,7 +43,6 @@ export function UserAvatarMenu() {
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3 pr-2">
-        {/*<div className="flex cursor-pointer flex-row items-center rounded-full border-[1px] border-neutral-200 p-1 transition hover:shadow-md">*/}
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 pl-1.5 transition">

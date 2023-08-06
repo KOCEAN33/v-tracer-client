@@ -8,6 +8,7 @@ import { MainNav } from '@/components/navbar/main-nav';
 import { buttonVariants } from '@/components/ui/button';
 import { config } from '@/common/config/config';
 import { UserAvatarMenu } from '@/components/navbar/user-menu';
+import { ModeToggle } from '@/components/navbar/dark-mode-toggle';
 
 export function SiteHeader() {
   return (
@@ -54,7 +55,7 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
-            {/*<ModeToggle />*/}
+            <ModeToggle />
             <UserAvatarMenu />
           </nav>
         </div>

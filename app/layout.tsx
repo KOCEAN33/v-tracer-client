@@ -4,6 +4,7 @@ import '../public/static/fonts/pretendardvariable.css';
 import { ModalProvider } from '@/providers/home-modal-provider';
 import { ToastProvider } from '@/providers/toast-provider';
 import { SiteHeader } from '@/components/navbar/site-header';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata = {
   title: 'Create Next App',
@@ -18,13 +19,16 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <div className="relative flex flex-col">
-          <SiteHeader />
-        </div>
-        <ToastProvider />
-        <ModalProvider />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="relative flex flex-col">
+            <SiteHeader />
+          </div>
 
-        {children}
+          <ToastProvider />
+          <ModalProvider />
+
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

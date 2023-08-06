@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 import { SampleReviews } from '@/app/product/[productName]/data/review';
-import { ReviewCard } from '@/components/review-card';
+import { ReviewCard } from '@/app/product/[productName]/reviews/components/review-card';
 
 export default function ProductReviewsPage({ params }) {
   const reviews = SampleReviews;
