@@ -8,7 +8,7 @@ interface VoteButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   vote: { up: number; down: number };
 }
 
-export function VoteButton({ vote, className }: VoteButtonProps) {
+export const VoteButton: React.FC<VoteButtonProps> = ({ vote, className }) => {
   const [voteUp, setVoteUp] = useState<number>(vote.up);
   const [voteDown, setVoteDown] = useState<number>(vote.down);
   const [userAction, setUserAction] = useState<'voteUp' | 'voteDown' | null>(
@@ -38,7 +38,7 @@ export function VoteButton({ vote, className }: VoteButtonProps) {
   return (
     <>
       <div className="relative rounded-full dark:bg-gray-900">
-        <div className="relative flex inline-flex items-center space-x-1">
+        <div className="relative flex items-center space-x-1">
           <Button
             variant="ghost"
             size="icon"
@@ -62,4 +62,4 @@ export function VoteButton({ vote, className }: VoteButtonProps) {
       </div>
     </>
   );
-}
+};

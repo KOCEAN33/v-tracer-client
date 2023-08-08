@@ -6,16 +6,15 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export const ReviewDropdownMenu = () => {
+export const QuestionDropdownMenu = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <div className="flex  flex-row gap-3 pr-2">
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild>
@@ -27,12 +26,18 @@ export const ReviewDropdownMenu = () => {
               </div>
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[100px]">
+          <DropdownMenuContent align="end" className="w-[100px] ">
             <DropdownMenuGroup>
-              <DropdownMenuItem>신고</DropdownMenuItem>
-              <DropdownMenuItem>수정</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                신고
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                수정
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-600">삭제</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer text-red-600">
+                삭제
+              </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
