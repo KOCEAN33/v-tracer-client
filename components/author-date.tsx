@@ -18,7 +18,7 @@ export const AuthorDateLine: React.FC<AuthorDateLineProps> = ({
         <AvatarImage src={image} alt={name} />
         <AvatarFallback>{name} </AvatarFallback>
       </Avatar>
-      <div className="ml-2 text-sm">{name}</div>
+      <div className="ml-2 text-base">{name}</div>
       <div className="pl-2 pr-2">•</div>
       <div className="text-sm">{dateConverter(publishedAt, 14)}</div>
     </div>

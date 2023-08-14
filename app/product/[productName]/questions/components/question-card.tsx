@@ -14,7 +14,7 @@ import { VoteButton } from '@/components/vote-button';
 import { AuthorDateLine } from '@/components/author-date';
 import { Questions } from '@/app/product/[productName]/data/questions';
 import { AnswersButton } from '@/app/product/[productName]/questions/components/answers-button';
-import { QuestionDropdownMenu } from '@/app/product/[productName]/questions/components/question-dropdown-menu';
+import { UserPostDropdownMenu } from '@/components/menu/user-post-dropdown-menu';
 
 interface QuestionCardProps extends React.HTMLAttributes<HTMLDivElement> {
   question: Questions;
@@ -46,7 +46,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                 publishedAt={question.publishedAt}
               />
               <div>
-                <QuestionDropdownMenu />
+                <UserPostDropdownMenu />
               </div>
             </div>
             <div className="">

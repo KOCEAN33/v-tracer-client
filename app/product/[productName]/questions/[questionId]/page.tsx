@@ -2,14 +2,18 @@ import { Button } from '@/components/ui/button';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/components/ui/separator';
 
-import { SampleAnswers } from '@/app/product/[productName]/data/answers';
+import { questionDetail } from '@/app/product/[productName]/data/answers';
+import { QuestionDetail } from '@/app/product/[productName]/questions/[questionId]/components/question-detail';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { AnswerCard } from '@/app/product/[productName]/questions/[questionId]/components/answer-card';
+import { AnswersSeparator } from '@/app/product/[productName]/questions/[questionId]/components/answers-separator';
 
-interface QuestionPageProps {
+interface QuestionPageProps extends React.HTMLAttributes<HTMLDivElement> {
   params: { questionId: string };
 }
 
-const QuestionPage: React.FC<QuestionPageProps> = ({ params }) => {
-  const answers = SampleAnswers;
+const QuestionPage: React.FC<QuestionPageProps> = ({ params, className }) => {
+  const qna = questionDetail;
   return (
     <>
       <div className="space-between flex items-center">
@@ -25,8 +29,19 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ params }) => {
         </div>
       </div>
       <Separator className="my-4" />
-      <div>{params.questionId}</div>
-      <div></div>
+      <QuestionDetail question={qna.question} />
+      <div className="my-2 py-2">
+        <AnswersSeparator />
+      </div>
+      <div>
+        <div>
+          <div className="flex flex-col space-y-5 py-4 ">
+            {qna.answers.map((answer) => (
+              <AnswerCard key={answer.id} answer={answer} />
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   );
 };

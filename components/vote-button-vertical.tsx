@@ -6,11 +6,14 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
-interface VoteButtonProps extends React.HTMLAttributes<HTMLDivElement> {
+interface VoteButtonVarticalProps extends React.HTMLAttributes<HTMLDivElement> {
   vote: { up: number; down: number };
 }
 
-export const VoteButton: React.FC<VoteButtonProps> = ({ vote, className }) => {
+export const VoteButtonVartical: React.FC<VoteButtonVarticalProps> = ({
+  vote,
+  className,
+}) => {
   const [voteUp, setVoteUp] = useState<number>(vote.up);
   const [voteDown, setVoteDown] = useState<number>(vote.down);
   const [userAction, setUserAction] = useState<'voteUp' | 'voteDown' | null>(
@@ -39,12 +42,11 @@ export const VoteButton: React.FC<VoteButtonProps> = ({ vote, className }) => {
 
   return (
     <>
-      <div className="relative rounded-full dark:bg-gray-900">
-        <div className="relative flex items-center space-x-1">
+      <div className=" mx-3 w-10 pt-3 ">
+        <div className="flex flex-col items-center justify-center rounded-md dark:bg-gray-900">
           <Button
             variant="ghost"
             size="icon"
-            className={cn('rounded-full', className)}
             onClick={handleVoteUp}
             disabled={userAction === 'voteDown'}
           >
@@ -54,7 +56,6 @@ export const VoteButton: React.FC<VoteButtonProps> = ({ vote, className }) => {
           <Button
             variant="ghost"
             size="icon"
-            className={cn('rounded-full', className)}
             onClick={handleVoteDown}
             disabled={userAction === 'voteUp'}
           >

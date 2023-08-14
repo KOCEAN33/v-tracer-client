@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { MoreVertical } from 'lucide-react';
 
@@ -10,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export const QuestionDropdownMenu = () => {
+export const UserPostDropdownMenu = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,11 +33,14 @@ export const QuestionDropdownMenu = () => {
               <DropdownMenuItem className="cursor-pointer">
                 신고
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuItem disabled className="cursor-pointer">
                 수정
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer text-red-600">
+              <DropdownMenuItem
+                disabled
+                className="cursor-pointer text-red-600"
+              >
                 삭제
               </DropdownMenuItem>
             </DropdownMenuGroup>

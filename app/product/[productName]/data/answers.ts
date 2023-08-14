@@ -1,9 +1,9 @@
-export interface AnswersPage {
+export interface Question {
   id: string;
   author: { id: string; image: string; name: string };
   title: string;
   body: string;
-  answers: Answers[];
+  answers: number;
   vote: { up: number; down: number };
   publishedAt: string;
 }
@@ -15,8 +15,26 @@ export interface Answers {
   vote: { up: number; down: number };
   publishedAt: string;
 }
+export interface QuestionDetail {
+  question: Question;
+  answers: Answers[];
+}
 
-export const Answers: Answers[] = [
+const sampleQuestion = {
+  id: '203957203fgdrye',
+  author: {
+    id: '23035u20j2',
+    image: 'https://github.com/oven-sh.png',
+    name: '오븐',
+  },
+  title: '노션AI 돈값 하나요?',
+  body: '이거 한달에 개비싼데 되나요',
+  answers: 10,
+  vote: { up: 10, down: 5 },
+  publishedAt: '2023-08-01T18:38:24.402+00:00',
+};
+
+export const sampleAnswers: Answers[] = [
   {
     id: 'dkfjseofwnego243820',
     author: {
@@ -95,18 +113,7 @@ export const Answers: Answers[] = [
   },
 ];
 
-export const SampleAnswers: AnswersPage[] = [
-  {
-    id: '203957203fgdrye',
-    author: {
-      id: '23035u20j2',
-      image: 'https://github.com/oven-sh.png',
-      name: '오븐',
-    },
-    title: '노션AI 돈값 하나요?',
-    body: '이거 한달에 개비싼데 되나요',
-    answers: Answers,
-    vote: { up: 10, down: 5 },
-    publishedAt: '2023-08-01T18:38:24.402+00:00',
-  },
-];
+export const questionDetail: QuestionDetail = {
+  question: sampleQuestion,
+  answers: sampleAnswers,
+};
