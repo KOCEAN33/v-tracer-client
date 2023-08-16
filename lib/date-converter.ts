@@ -7,7 +7,7 @@ export function dateConverter(nowDate: string, days: number): string {
   const distance = (+now - +inputDate) / 86400000;
 
   if (distance > days) {
-    return format(new Date(now), 'yyyy/MM/dd');
+    return format(new Date(nowDate), 'yyyy/MM/dd');
   }
 
   return formatDistance(new Date(nowDate), new Date(), {

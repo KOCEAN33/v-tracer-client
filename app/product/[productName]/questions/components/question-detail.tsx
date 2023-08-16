@@ -32,7 +32,7 @@ export const QuestionDetail: React.FC<QuestionDetailProps> = ({
 }) => {
   return (
     <>
-      <Card className={cn(' rounded-lg border-none shadow-none', className)}>
+      <Card className={cn('rounded-lg border-none shadow-none', className)}>
         <CardHeader>
           <div className="flex justify-between pb-4">
             <AuthorDateLine

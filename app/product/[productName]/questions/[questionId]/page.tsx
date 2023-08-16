@@ -3,10 +3,10 @@ import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Separator } from '@/components/ui/separator';
 
 import { questionDetail } from '@/app/product/[productName]/data/answers';
-import { QuestionDetail } from '@/app/product/[productName]/questions/[questionId]/components/question-detail';
+import { QuestionDetail } from '@/app/product/[productName]/questions/components/question-detail';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { AnswerCard } from '@/app/product/[productName]/questions/[questionId]/components/answer-card';
-import { AnswersSeparator } from '@/app/product/[productName]/questions/[questionId]/components/answers-separator';
+import { AnswerCard } from '@/app/product/[productName]/questions/components/answer-card';
+import { AnswersSeparator } from '@/app/product/[productName]/questions/components/answers-separator';
 
 interface QuestionPageProps extends React.HTMLAttributes<HTMLDivElement> {
   params: { questionId: string };

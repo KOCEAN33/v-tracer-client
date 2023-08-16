@@ -44,7 +44,7 @@ export const sampleAnswers: Answers[] = [
     },
     body: '그렇게 나쁘지는 않은데 가격 생각하면 그냥 chatGPT 쓰는게 가성비가 좋은듯여',
     vote: { up: 5, down: 6 },
-    publishedAt: '2023-08-01T18:38:24.402+00:00',
+    publishedAt: '2023-07-01T18:38:24.402+00:00',
   },
   {
     id: 'dkfjseofwnego243820',
@@ -63,7 +63,7 @@ export const sampleAnswers: Answers[] = [
       '\n' +
       'so your code should look like this:',
     vote: { up: 5, down: 6 },
-    publishedAt: '2023-08-01T18:38:24.402+00:00',
+    publishedAt: '2023-06-01T15:38:24.402+00:00',
   },
   {
     id: 'dkfjseofwnego243820',
@@ -81,7 +81,7 @@ export const sampleAnswers: Answers[] = [
       '    It will show you an simple realtime digital clock example\n' +
       '    The demo will appear below the code snippet.\n',
     vote: { up: 5, down: 6 },
-    publishedAt: '2023-08-01T18:38:24.402+00:00',
+    publishedAt: '2023-07-25T18:38:24.402+00:00',
   },
   {
     id: 'dkfjseofwnego243820',

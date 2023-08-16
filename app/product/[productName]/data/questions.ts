@@ -20,6 +20,6 @@ export const SampleQuestions: Questions[] = [
     body: '이거 한달에 개비싼데 되나요',
     answers: 5,
     vote: { up: 10, down: 5 },
-    publishedAt: '2023-08-01T18:38:24.402+00:00',
+    publishedAt: '2023-07-01T18:38:24.402+00:00',
   },
 ];
