@@ -12,6 +12,8 @@ interface QuestionPageProps extends React.HTMLAttributes<HTMLDivElement> {
   params: { questionId: string };
 }
 
+// TODO: 답변 카드에 대한 최소 height 설정
+
 const QuestionPage: React.FC<QuestionPageProps> = ({ params, className }) => {
   const qna = questionDetail;
   return (

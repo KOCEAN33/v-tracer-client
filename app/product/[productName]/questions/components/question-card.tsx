@@ -33,38 +33,40 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
     <>
       <Card
         className={cn(
-          'cursor-pointer rounded-lg border-none shadow-none hover:bg-gray-100 hover:dark:bg-gray-900',
+          'rounded-lg border-none shadow-none hover:bg-gray-100 hover:dark:bg-gray-900',
           className,
         )}
       >
-        <Link href={QuestionPageUrl}>
-          <CardHeader>
-            <div className="flex justify-between pb-4">
-              <AuthorDateLine
-                name={question.author.name}
-                image={question.author.image}
-                publishedAt={question.publishedAt}
-              />
-              <div>
-                <UserPostDropdownMenu />
-              </div>
+        <CardHeader>
+          <div className="flex justify-between pb-4">
+            <AuthorDateLine
+              name={question.author.name}
+              image={question.author.image}
+              publishedAt={question.publishedAt}
+            />
+            <div>
+              <UserPostDropdownMenu />
             </div>
-            <div className="">
+          </div>
+          <Link href={QuestionPageUrl}>
+            <div className="cursor-pointer">
               <CardTitle>{question.title}</CardTitle>
             </div>
-          </CardHeader>
+          </Link>
+        </CardHeader>
 
+        <Link href={QuestionPageUrl}>
           <CardContent>
             <div className="flex">
               <div className="basis-11/12">{question.body}</div>
             </div>
           </CardContent>
-
-          <CardFooter className="flex flex-row space-x-5">
-            <VoteButton vote={question.vote} />
-            <AnswersButton count={5} />
-          </CardFooter>
         </Link>
+
+        <CardFooter className="flex flex-row space-x-5">
+          <VoteButton vote={question.vote} />
+          <AnswersButton count={5} />
+        </CardFooter>
       </Card>
     </>
   );

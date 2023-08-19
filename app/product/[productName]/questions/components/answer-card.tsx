@@ -33,7 +33,7 @@ export const AnswerCard: React.FC<AnswersCardProps> = ({
     <>
       <Card
         className={cn(
-          'flex flex-row rounded-lg border-none shadow-none ',
+          'flex min-h-[140px] flex-row rounded-lg border-none shadow-none ',
           className,
         )}
       >
@@ -48,7 +48,6 @@ export const AnswerCard: React.FC<AnswersCardProps> = ({
           </CardContent>
 
           <CardFooter className="flex flex-row space-x-5">
-            {/*<VoteButton vote={answer.vote} />*/}
             <AuthorDateLine
               name={answer.author.name}
               image={answer.author.image}

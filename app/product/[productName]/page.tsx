@@ -11,12 +11,16 @@ import { OverviewProduct } from '@/app/product/[productName]/components/overview
 import { SampleReviews } from '@/app/product/[productName]/data/review';
 import { SampleQuestions } from '@/app/product/[productName]/data/questions';
 import { product } from '@/app/product/[productName]/data/product';
+import { OverviewReview } from '@/app/product/[productName]/components/overview-review';
+import { OverviewQuestion } from '@/app/product/[productName]/components/overview-question';
 
 export interface ProductPageProps {
   params: {
     productName: string;
   };
 }
+
+//TODO : 1000이상 숫자는 1K로 짧게 수정
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
   const reviews = SampleReviews;
@@ -61,7 +65,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
       <div className="relative">
         <div className="flex flex-col space-y-5 pb-4">
           {topReviews.map((review) => (
-            <ReviewCard key={review.id} review={review} userId={userId} />
+            <OverviewReview key={review.id} review={review} />
           ))}
         </div>
       </div>
@@ -75,11 +79,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
       <div className="relative">
         <div className="flex flex-col space-y-5 pb-4">
           {topQuestions.map((question) => (
-            <QuestionCard
-              key={question.id}
-              params={params}
-              question={question}
-            />
+            <OverviewQuestion key={question.id} question={question} />
           ))}
         </div>
       </div>

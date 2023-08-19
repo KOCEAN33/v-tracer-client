@@ -20,6 +20,11 @@ export const VoteButtonVartical: React.FC<VoteButtonVarticalProps> = ({
     null,
   );
 
+  const totalCount = new Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    maximumFractionDigits: 1,
+  }).format(vote.up - vote.down);
+
   const handleVoteUp = () => {
     if (userAction === 'voteUp') {
       setVoteUp(voteUp - 1);
@@ -52,7 +57,7 @@ export const VoteButtonVartical: React.FC<VoteButtonVarticalProps> = ({
           >
             <ArrowBigUp />
           </Button>
-          <div className="text-lg">{voteUp - voteDown}</div>
+          <div className="text-lg font-bold">{totalCount}</div>
           <Button
             variant="ghost"
             size="icon"
