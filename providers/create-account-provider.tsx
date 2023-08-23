@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { HomeModal } from '@/components/modals/home-modal';
+import { CreateAccountModal } from '@/components/modals/create-account';
 
-export const ModalProvider = () => {
+export const CreateAccountProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <HomeModal />
+      <CreateAccountModal />
     </>
   );
 };

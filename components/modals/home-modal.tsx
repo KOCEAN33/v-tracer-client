@@ -40,12 +40,7 @@ export const HomeModal = () => {
   });
 
   return (
-    <Modal
-      title="Home"
-      description="새로운 메시지"
-      isOpen={homeModal.isOpen}
-      onClose={homeModal.onClose}
-    >
+    <Modal isOpen={homeModal.isOpen} onClose={homeModal.onClose}>
       <div>
         <div className="space-y-4 py-2 pb-4">
           <div className="space-y-2">

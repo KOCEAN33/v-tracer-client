@@ -29,7 +29,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <div className={cn('pb-12', className)}>
+    <aside className={cn('pb-12', className)}>
       <div className="space-y-4 py-4">
         <InfoCard product={product} />
 
@@ -63,7 +63,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </Link>
             <Link href={sidePath.reviews}>
               <Button
-                variant={pathname === sidePath.reviews ? 'secondary' : 'ghost'}
+                variant={
+                  pathname.includes(sidePath.reviews) ? 'secondary' : 'ghost'
+                }
                 className="w-full justify-start"
               >
                 <svg
@@ -86,7 +88,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <Link href={sidePath.questions}>
               <Button
                 variant={
-                  pathname === sidePath.questions ? 'secondary' : 'ghost'
+                  pathname.includes(sidePath.questions) ? 'secondary' : 'ghost'
                 }
                 className="w-full justify-start"
               >
@@ -120,6 +122,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </Link>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };

@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 import { SampleQuestions } from '@/app/product/[productName]/data/questions';
-import { QuestionCard } from '@/app/product/[productName]/questions/components/question-card';
+import { TextCard } from '@/components/post-card';
 
 interface ProductQuestionsPageProps {
   params: {
@@ -35,10 +35,10 @@ const ProductQuestionsPage: React.FC<ProductQuestionsPageProps> = ({
         <ScrollArea>
           <div className="flex flex-col space-y-5 pb-4">
             {questions.map((question) => (
-              <QuestionCard
+              <TextCard
                 key={question.id}
-                params={params}
-                question={question}
+                data={question}
+                url={`questions/${question.id}`}
               />
             ))}
           </div>

@@ -1,10 +1,10 @@
 import './globals.css';
 import '../public/static/fonts/pretendardvariable.css';
 
-import { ModalProvider } from '@/providers/home-modal-provider';
 import { ToastProvider } from '@/providers/toast-provider';
 import { SiteHeader } from '@/components/navbar/site-header';
 import { ThemeProvider } from '@/components/theme-provider';
+import { CreateAccountProvider } from '@/providers/create-account-provider';
 
 export const metadata = {
   title: 'Create Next App',
@@ -19,14 +19,13 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="kr">
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <div className="relative flex flex-col">
             <SiteHeader />
           </div>
 
           <ToastProvider />
-          <ModalProvider />
-
+          <CreateAccountProvider />
           {children}
         </ThemeProvider>
       </body>
