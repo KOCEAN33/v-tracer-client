@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CreateAccountModal } from '@/components/modals/create-account-modal';
 import { LoginModal } from '@/components/modals/login-modal';
 
 export const LoginProvider = () => {

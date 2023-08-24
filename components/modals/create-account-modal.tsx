@@ -1,7 +1,13 @@
 'use client';
 
+import { cn } from '@/lib/utils';
+import { useCallback, useState } from 'react';
+
+import { Modal } from '@/components/ui/modal';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   CardContent,
   CardDescription,
@@ -9,13 +15,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useCreateAccountModal } from '@/hooks/use-create-account';
-import { useCallback, useState } from 'react';
-import { Modal } from '@/components/ui/modal';
-import { cn } from '@/lib/utils';
 import { DialogContent } from '@/components/ui/dialog';
+
+import { useCreateAccountModal } from '@/hooks/use-create-account';
 import { useLoginModal } from '@/hooks/use-login-modal';
 
 export function CreateAccountModal() {

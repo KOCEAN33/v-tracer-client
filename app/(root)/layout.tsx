@@ -13,10 +13,6 @@ export default async function SetupLayout({
   if (!userId) {
     redirect('/login');
   }
-  //
-  // if (product) {
-  //   redirect(`/${product.handle}`);
-  // }
 
   return <>{children}</>;
 }

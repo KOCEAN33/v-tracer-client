@@ -1,15 +1,7 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,19 +17,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-const labels = [
-  'feature',
-  'bug',
-  'enhancement',
-  'documentation',
-  'design',
-  'question',
-  'maintenance',
-];
-
 export function UserAvatarMenu() {
-  const [label, setLabel] = React.useState('feature');
-  const [open, setOpen] = React.useState(false);
+  const [label, setLabel] = useState('feature');
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="relative">
@@ -57,34 +39,7 @@ export function UserAvatarMenu() {
               <DropdownMenuItem>Assign to...</DropdownMenuItem>
               <DropdownMenuItem>Set due date...</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>Apply label</DropdownMenuSubTrigger>
-                <DropdownMenuSubContent className="p-0">
-                  <Command>
-                    <CommandInput
-                      placeholder="Filter label..."
-                      autoFocus={true}
-                      className="h-9"
-                    />
-                    <CommandList>
-                      <CommandEmpty>No label found.</CommandEmpty>
-                      <CommandGroup>
-                        {labels.map((label) => (
-                          <CommandItem
-                            key={label}
-                            onSelect={(value) => {
-                              setLabel(value);
-                              setOpen(false);
-                            }}
-                          >
-                            {label}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
+              <DropdownMenuSub></DropdownMenuSub>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="text-red-600">
                 Delete

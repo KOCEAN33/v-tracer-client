@@ -1,5 +1,8 @@
 'use client';
 
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+
 import {
   Card,
   CardContent,
@@ -7,21 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
-import { cn } from '@/lib/utils';
 import { AuthorDateLine } from '@/components/author-date';
 import { VoteButtonVartical } from '@/components/vote-button-vertical';
-import Link from 'next/link';
-import { CheckCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { Badge } from './ui/badge';
-import { Separator } from '@/components/ui/separator';
 
 export interface TextCardProps extends React.HTMLAttributes<HTMLDivElement> {
   url: string;

@@ -2,17 +2,14 @@ import { PlusCircledIcon } from '@radix-ui/react-icons';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
-import { ReviewCard } from '@/app/product/[productName]/reviews/components/review-card';
-import { QuestionCard } from '@/app/product/[productName]/questions/components/question-card';
+import { OverviewReview } from '@/app/product/[productName]/components/overview-review';
+import { OverviewQuestion } from '@/app/product/[productName]/components/overview-question';
 import { OverviewProduct } from '@/app/product/[productName]/components/overview-product';
 
 import { SampleReviews } from '@/app/product/[productName]/data/review';
 import { SampleQuestions } from '@/app/product/[productName]/data/questions';
 import { product } from '@/app/product/[productName]/data/product';
-import { OverviewReview } from '@/app/product/[productName]/components/overview-review';
-import { OverviewQuestion } from '@/app/product/[productName]/components/overview-question';
 
 export interface ProductPageProps {
   params: {

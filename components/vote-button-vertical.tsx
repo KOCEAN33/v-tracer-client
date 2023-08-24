@@ -1,10 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
 
 interface VoteButtonVarticalProps extends React.HTMLAttributes<HTMLDivElement> {
   vote: { up: number; down: number };
@@ -12,7 +11,6 @@ interface VoteButtonVarticalProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const VoteButtonVartical: React.FC<VoteButtonVarticalProps> = ({
   vote,
-  className,
 }) => {
   const [voteUp, setVoteUp] = useState<number>(vote.up);
   const [voteDown, setVoteDown] = useState<number>(vote.down);

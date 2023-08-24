@@ -1,5 +1,7 @@
 'use client';
 
+import { cn } from '@/lib/utils';
+
 import {
   Card,
   CardContent,
@@ -7,10 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
 import { ReviewDropdownMenu } from '@/app/product/[productName]/reviews/components/review-dropdown-menu';
-import { cn } from '@/lib/utils';
-import { VoteButton } from '@/components/vote-button';
 import { AuthorDateLine } from '@/components/author-date';
 import { VoteButtonVartical } from '@/components/vote-button-vertical';
 

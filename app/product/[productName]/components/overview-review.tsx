@@ -1,5 +1,7 @@
 'use client';
 
+import { cn } from '@/lib/utils';
+
 import {
   Card,
   CardContent,
@@ -7,20 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { AuthorDateLine } from '@/components/author-date';
-import { ReviewDropdownMenu } from '@/app/product/[productName]/reviews/components/review-dropdown-menu';
-import { VoteButton } from '@/components/vote-button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { SampleReviews } from '@/app/product/[productName]/data/review';
-import { AnswersButton } from '@/app/product/[productName]/questions/components/answers-button';
 
 export interface Review {
   id: string;
