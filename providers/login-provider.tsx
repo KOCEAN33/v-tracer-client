@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { CreateAccountModal } from '@/components/modals/create-account-modal';
+import { LoginModal } from '@/components/modals/login-modal';
 
-export const CreateAccountProvider = () => {
+export const LoginProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ export const CreateAccountProvider = () => {
 
   return (
     <>
-      <CreateAccountModal />
+      <LoginModal />
     </>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { toast, Toaster, ToastBar } from 'react-hot-toast';
+import { Toaster, ToastBar } from 'react-hot-toast';
 
 export const ToastProvider = () => {
   return (
