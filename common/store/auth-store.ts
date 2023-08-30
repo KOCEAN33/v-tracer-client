@@ -28,7 +28,6 @@ export class AuthStore {
   async login(email: string, password: string) {
     try {
       const response = await AuthService.login(email, password);
-      console.log(response);
 
       // AccessToken
       Cookies.remove('token-access');

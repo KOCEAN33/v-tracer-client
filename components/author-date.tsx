@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { dateConverter } from '@/lib/date-converter';
+import { dateConverter } from '@/common/utils/date-converter';
 
 interface AuthorDateLineProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
@@ -7,11 +7,11 @@ interface AuthorDateLineProps extends React.HTMLAttributes<HTMLDivElement> {
   publishedAt: string;
 }
 
-export const AuthorDateLine: React.FC<AuthorDateLineProps> = ({
+export const AuthorDateLine = ({
   name,
   image,
   publishedAt,
-}) => {
+}: AuthorDateLineProps) => {
   return (
     <div className="flex flex-row items-center">
       <Avatar className="h-6 w-6">

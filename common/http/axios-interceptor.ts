@@ -1,8 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+import fingerprint from '@/common/utils/fingerprint';
+
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log(API_URL);
 
 const $api = axios.create({
   validateStatus: function (status) {
@@ -14,6 +15,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use(async (config) => {
   config.headers.Authorization = `Bearer ${Cookies.get('token-access')}`;
+  config.headers.Fingerprint = await fingerprint;
   return config;
 });
 
@@ -33,9 +35,8 @@ $api.interceptors.response.use(
         const response = await $api.get('/auth/refresh', {
           withCredentials: true,
         });
-        console.log(response);
         Cookies.remove('token-access');
-        Cookies.set('token-access', response.data.data.accessToken);
+        Cookies.set('token-access', response.data.accessToken);
 
         return $api.request(originalRequest);
       } catch (e) {
