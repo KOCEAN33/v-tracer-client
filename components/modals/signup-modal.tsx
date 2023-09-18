@@ -2,20 +2,18 @@
 
 import * as z from 'zod';
 import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
-import $api from '@/common/http/axios-interceptor';
 import { cn } from '@/lib/utils';
-import { ModalType, useModal } from '@/hooks/use-modal-store';
-
-import { useAuthStore } from '@/common/store/auth-store';
+import $api from '@/common/http/axios-interceptor';
 import { Icons } from '@/components/icons';
-import { Input } from '@/components/ui/input';
+
+import { ModalType, useModal } from '@/hooks/use-modal-store';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import {
   CardContent,
   CardDescription,
@@ -32,49 +30,40 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import useStore from '@/hooks/use-store';
-
-const loginSchema = z.object({
+const signUpSchema = z.object({
+  name: z.string().min(1, { message: '이름' }),
   email: z
     .string()
     .email()
-    .min(1, { message: '유효한 이메일 주소를 입력해주세요' }),
-  password: z.string().min(6, { message: '비밀번호는 6자 이상이여야 합니다' }),
+    .min(1, { message: '이메일 주소가 올바르지 않습니다' }),
+  password: z
+    .string()
+    .min(6, { message: '비밀번호는 최소 6자 이상이여야 합니다' }),
 });
 
-export const LoginModal = () => {
-  const authStore = useAuthStore();
-
+export function SignUpModal() {
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === 'logIn';
+  const isModalOpen = isOpen && type === 'signUp';
 
   const form = useForm({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { name: '', email: '', password: '' },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
     try {
-      const response = await $api.post('/auth/login', values);
-
-      Cookies.remove('token-access');
-      Cookies.set('token-access', response.data.accessToken);
-
-      authStore.setUser(response.data.userData);
+      const response = await $api.post('/auth/signup', values);
 
       toast.success(response.data.message);
       form.reset();
       router.refresh();
       onClose();
     } catch (e: any) {
-      console.log(e);
-      // if (e.response.data.message) {
-      //   toast.error(e.response.data.message);
-      // }
+      toast.error(e.response.data.message);
     }
   };
 
@@ -91,7 +80,7 @@ export const LoginModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className={cn('max-w-md p-0')}>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">로그인 하기</CardTitle>
+          <CardTitle className="text-2xl">새로운 계정 만들기</CardTitle>
           <CardDescription>
             Enter your email below to create your account
           </CardDescription>
@@ -109,7 +98,6 @@ export const LoginModal = () => {
                   Google
                 </Button>
               </div>
-
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
@@ -119,6 +107,27 @@ export const LoginModal = () => {
                     Or continue with
                   </span>
                 </div>
+              </div>
+
+              <div>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          type="name"
+                          placeholder="이름"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <div>
@@ -164,17 +173,16 @@ export const LoginModal = () => {
             </CardContent>
             <CardFooter>
               <div className="flex w-full flex-col space-y-5">
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  로그인
+                <Button type="submit" className="w-full">
+                  계정 만들기
                 </Button>
-
                 <div className="flex flex-row space-x-2">
-                  <p className="grid gap-4">아직 계정이 없으신가요?</p>
+                  <p className="grid gap-4">이미 계정이 있으신가요?</p>
                   <p
-                    onClick={(e) => onAction(e, 'signUp')}
+                    onClick={(e) => onAction(e, 'logIn')}
                     className="cursor-pointer font-semibold underline underline-offset-4"
                   >
-                    계정 만들기
+                    로그인 하기
                   </p>
                 </div>
               </div>
@@ -184,4 +192,4 @@ export const LoginModal = () => {
       </DialogContent>
     </Dialog>
   );
-};
+}
