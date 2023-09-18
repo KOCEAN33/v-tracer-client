@@ -10,7 +10,6 @@ interface User {
 interface AuthState {
   user: User | null;
   setUser: (user: User | null) => void;
-  // getUser: () => User | null;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -21,7 +20,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'user-storage', // name of item in the storage (must be unique)
-      storage: createJSONStorage(() => localStorage), // (optional) by default the 'localStorage' is used
+      storage: createJSONStorage(() => localStorage),
     },
   ),
 );

@@ -5,7 +5,6 @@ import { ToastProvider } from '@/providers/toast-provider';
 import { SiteHeader } from '@/components/navbar/site-header';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ModalProvider } from '@/providers/modal-provider';
-import HydrationZustand from '@/app/hydration-zustand';
 
 export const metadata = {
   title: 'SAAS Review',
