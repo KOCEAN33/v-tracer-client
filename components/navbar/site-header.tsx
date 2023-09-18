@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
@@ -6,20 +8,23 @@ import { config } from '@/common/config/config';
 import { Icons } from '@/components/icons';
 import { MainNav } from '@/components/navbar/main-nav';
 import { buttonVariants } from '@/components/ui/button';
-import { UserAvatarMenu } from '@/components/navbar/user-menu';
 import { ModeToggle } from '@/components/navbar/dark-mode-toggle';
+import { useAuthStore } from '@/common/store/auth-store';
+import { UserAvatarMenu } from '@/components/navbar/user-menu';
+import useStore from '@/hooks/use-store';
 
 export function SiteHeader() {
+  const user = useStore(useAuthStore, (state) => state.user);
   return (
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-14 items-center">
         <MainNav />
         {/*<MobileNav />*/}
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+        <nav className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
             {/*<CommandMenu />*/}
           </div>
-          <nav className="flex items-center">
+          <div className="flex items-center">
             <Link
               href={config.site.links.github}
               target="_blank"
@@ -55,9 +60,9 @@ export function SiteHeader() {
               </div>
             </Link>
             <ModeToggle />
-            <UserAvatarMenu />
-          </nav>
-        </div>
+            {user ? <UserAvatarMenu /> : null}
+          </div>
+        </nav>
       </div>
     </header>
   );

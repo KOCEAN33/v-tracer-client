@@ -1,26 +1,30 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useCreateAccountModal } from '@/hooks/use-create-account';
-import { useLoginModal } from '@/hooks/use-login-modal';
-import $api from '@/common/http/axios-interceptor';
 import toast from 'react-hot-toast';
+import { ModalType, useModal } from '@/hooks/use-modal-store';
+import useStore from '@/hooks/use-store';
+import { useAuthStore } from '@/common/store/auth-store';
 
 const Home = () => {
-  const createAccountModal = useCreateAccountModal();
-  const loginModal = useLoginModal();
+  const { onOpen } = useModal();
+  const user = useStore(useAuthStore, (state) => state.user);
 
-  const test = async () => {
-    const data = await $api.get('/auth/test');
-    console.log(data);
-    toast.success(JSON.stringify(data));
+  const onAction = (e: React.MouseEvent, action: ModalType) => {
+    e.stopPropagation();
+    onOpen(action);
+  };
+
+  const testStore = () => {
+    console.log(user);
+    toast.success(`hello ${JSON.stringify(user)}`);
   };
 
   return (
     <>
       <div className="flex space-x-2">
-        <Button onClick={() => loginModal.onOpen()}>이거 열립니꽈</Button>
-        <Button onClick={() => test()}>핑핑핑</Button>
+        <Button onClick={(e) => onAction(e, 'signUp')}>이거 열립니꽈</Button>
+        <Button onClick={() => testStore()}>핑핑핑</Button>
       </div>
     </>
   );
