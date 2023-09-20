@@ -1,4 +1,4 @@
-import { Sidebar } from '@/app/product/[productName]/components/sidebar';
+import { Sidebar } from '@/components/sidebar';
 import { product } from '@/app/product/[productName]/data/product';
 
 import { Container } from '@/components/container';

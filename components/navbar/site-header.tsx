@@ -7,14 +7,22 @@ import { cn } from '@/lib/utils';
 import { config } from '@/common/config/config';
 import { Icons } from '@/components/icons';
 import { MainNav } from '@/components/navbar/main-nav';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { ModeToggle } from '@/components/navbar/dark-mode-toggle';
 import { useAuthStore } from '@/common/store/auth-store';
 import { UserAvatarMenu } from '@/components/navbar/user-menu';
 import useStore from '@/hooks/use-store';
+import { ModalType, useModal } from '@/hooks/use-modal-store';
 
 export function SiteHeader() {
   const user = useStore(useAuthStore, (state) => state.user);
+  const { onOpen } = useModal();
+
+  const onAction = (e: React.MouseEvent, action: ModalType) => {
+    e.stopPropagation();
+    onOpen(action);
+  };
+
   return (
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-14 items-center">
@@ -60,7 +68,13 @@ export function SiteHeader() {
               </div>
             </Link>
             <ModeToggle />
-            {user ? <UserAvatarMenu /> : null}
+            {user ? (
+              <UserAvatarMenu />
+            ) : (
+              <Button className="ml-2" onClick={(e) => onAction(e, 'logIn')}>
+                로그인
+              </Button>
+            )}
           </div>
         </nav>
       </div>

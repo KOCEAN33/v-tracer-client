@@ -13,9 +13,37 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import $api from '@/common/http/axios-interceptor';
+import { useAuthStore } from '@/common/store/auth-store';
+import useStore from '@/hooks/use-store';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export function UserAvatarMenu() {
   const [open, setOpen] = useState(false);
+  const user = useStore(useAuthStore, (state) => state.user);
+  const authStore = useAuthStore();
+  const router = useRouter();
+
+  const logOut = async () => {
+    try {
+      const response = await $api.post('/auth/logout', { userId: user?.id });
+
+      if (response.status == 201) {
+        console.log(response);
+        toast.success(response.data.message);
+      } else {
+        toast.success('logged out');
+      }
+    } catch (err: any) {
+      toast.error(err);
+    } finally {
+      Cookies.remove('token-access');
+      authStore.setUser(null);
+      router.refresh();
+    }
+  };
 
   return (
     <div className="relative">
@@ -24,7 +52,7 @@ export function UserAvatarMenu() {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 pl-1.5 transition">
               <Avatar className="h-9 w-9 cursor-pointer transition hover:shadow-md">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src={user?.imageSrc} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
@@ -37,8 +65,11 @@ export function UserAvatarMenu() {
               <DropdownMenuSeparator />
               <DropdownMenuSub></DropdownMenuSub>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-600">
-                Delete
+              <DropdownMenuItem
+                onClick={() => logOut()}
+                className="text-red-600"
+              >
+                로그아웃
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

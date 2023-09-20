@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
 import useStore from '@/hooks/use-store';
 import { useAuthStore } from '@/common/store/auth-store';
+import $api from '@/common/http/axios-interceptor';
 
 const Home = () => {
   const { onOpen } = useModal();
@@ -17,7 +18,15 @@ const Home = () => {
 
   const testStore = () => {
     console.log(user);
-    toast.success(`hello ${JSON.stringify(user)}`);
+    toast.success(`hello ${user?.name}`);
+  };
+
+  const authTest = async () => {
+    if (user?.id) {
+      await $api.get('auth/test');
+    } else {
+      toast.error('you need to login');
+    }
   };
 
   return (
@@ -25,6 +34,7 @@ const Home = () => {
       <div className="flex space-x-2">
         <Button onClick={(e) => onAction(e, 'signUp')}>이거 열립니꽈</Button>
         <Button onClick={() => testStore()}>핑핑핑</Button>
+        <Button onClick={() => authTest()}>AuthTest</Button>
       </div>
     </>
   );

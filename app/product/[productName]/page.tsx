@@ -3,9 +3,9 @@ import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
-import { OverviewReview } from '@/app/product/[productName]/components/overview-review';
-import { OverviewQuestion } from '@/app/product/[productName]/components/overview-question';
-import { OverviewProduct } from '@/app/product/[productName]/components/overview-product';
+import { OverviewReview } from '@/components/overview-review';
+import { OverviewQuestion } from '@/components/overview-question';
+import { OverviewProduct } from '@/components/overview-product';
 
 import { SampleReviews } from '@/app/product/[productName]/data/review';
 import { SampleQuestions } from '@/app/product/[productName]/data/questions';
