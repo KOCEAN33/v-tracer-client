@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 interface User {
   id: string;
   name: string;
-  email: string;
+  imageSrc: string;
 }
 
 interface AuthState {
@@ -24,3 +24,6 @@ export const useAuthStore = create<AuthState>()(
     },
   ),
 );
+
+// HOW to fix zustand hydration error
+// https://dev.to/abdulsamad/how-to-use-zustands-persist-middleware-in-nextjs-4lb5

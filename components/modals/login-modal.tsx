@@ -10,8 +10,8 @@ import { useForm } from 'react-hook-form';
 import $api from '@/common/http/axios-interceptor';
 import { cn } from '@/lib/utils';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
-
 import { useAuthStore } from '@/common/store/auth-store';
+
 import { Icons } from '@/components/icons';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -64,15 +64,15 @@ export const LoginModal = () => {
 
       authStore.setUser(response.data.userData);
 
-      toast.success(response.data.message);
+      toast.success(`Hello ${response.data.userData.name}`);
       form.reset();
       router.refresh();
       onClose();
     } catch (e: any) {
+      if (e.response.data.message) {
+        toast.error(e.response.data.message);
+      }
       console.log(e);
-      // if (e.response.data.message) {
-      //   toast.error(e.response.data.message);
-      // }
     }
   };
 
