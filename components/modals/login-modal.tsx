@@ -2,15 +2,13 @@
 
 import * as z from 'zod';
 import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import $api from '@/common/http/axios-interceptor';
 import { cn } from '@/lib/utils';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
-import { useAuthStore } from '@/common/store/auth-store';
 
 import { Icons } from '@/components/icons';
 import { Input } from '@/components/ui/input';
@@ -32,6 +30,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
+import Cookies from 'js-cookie';
+import { useSetAuth } from '@/hooks/use-auth-store';
+import $api from '@/lib/axios-interceptor';
+
 const loginSchema = z.object({
   email: z
     .string()
@@ -41,10 +43,9 @@ const loginSchema = z.object({
 });
 
 export const LoginModal = () => {
-  const authStore = useAuthStore();
-
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
+  const setUser = useSetAuth();
 
   const isModalOpen = isOpen && type === 'logIn';
 
@@ -61,18 +62,17 @@ export const LoginModal = () => {
 
       Cookies.remove('token-access');
       Cookies.set('token-access', response.data.accessToken);
+      setUser(response.data.userData);
 
-      authStore.setUser(response.data.userData);
-
-      toast.success(`Hello ${response.data.userData.name}`);
+      toast.success(`Hello ${response?.data?.userData?.name}`);
       form.reset();
       router.refresh();
       onClose();
     } catch (e: any) {
+      console.log(e);
       if (e.response.data.message) {
         toast.error(e.response.data.message);
       }
-      console.log(e);
     }
   };
 

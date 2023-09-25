@@ -4,19 +4,20 @@ import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 
-import { config } from '@/common/config/config';
+import { config } from '@/config/config';
 import { Icons } from '@/components/icons';
 import { MainNav } from '@/components/navbar/main-nav';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { ModeToggle } from '@/components/navbar/dark-mode-toggle';
-import { useAuthStore } from '@/common/store/auth-store';
+
 import { UserAvatarMenu } from '@/components/navbar/user-menu';
-import useStore from '@/hooks/use-store';
+
 import { ModalType, useModal } from '@/hooks/use-modal-store';
+import { useAuth } from '@/hooks/use-auth-store';
 
 export function SiteHeader() {
-  const user = useStore(useAuthStore, (state) => state.user);
   const { onOpen } = useModal();
+  const user = useAuth();
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {
     e.stopPropagation();

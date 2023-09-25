@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
-import $api from '@/common/http/axios-interceptor';
+import $api from '@/lib/axios-interceptor';
 import { Icons } from '@/components/icons';
 
 import { ModalType, useModal } from '@/hooks/use-modal-store';
