@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
-import fingerprint from '@/common/utils/fingerprint';
+import fingerprint from '@/lib/fingerprint';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -37,7 +36,7 @@ $api.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        const response = await authApi.get(`auth/refresh`);
+        const response = await authApi.get('auth/refresh');
 
         Cookies.remove('token-access');
         Cookies.set('token-access', response.data.accessToken);
