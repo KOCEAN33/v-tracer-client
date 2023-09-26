@@ -5,11 +5,11 @@ import toast from 'react-hot-toast';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
 
 import $api from '@/lib/axios-interceptor';
-import { useAuth } from '@/hooks/use-auth-store';
+import { useUserData } from '@/hooks/use-auth-store';
 
 const Home = () => {
   const { onOpen } = useModal();
-  const user = useAuth();
+  const user = useUserData();
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {
     e.stopPropagation();
@@ -18,11 +18,11 @@ const Home = () => {
 
   const testStore = () => {
     console.log(user);
-    toast.success(user.name);
+    toast.success(JSON.stringify(user?.userId));
   };
 
   const authTest = async () => {
-    if (user?.id) {
+    if (user?.userId) {
       const res = await $api.get('auth/test');
       toast.success(JSON.stringify(res.data));
     } else {

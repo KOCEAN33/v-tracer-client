@@ -5,6 +5,7 @@ import { SiteHeader } from '@/components/navbar/site-header';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ModalProvider } from '@/providers/modal-provider';
 import { ToastProvider } from '@/providers/toast-provider';
+import { AuthProvider } from '@/providers/auth-provider';
 
 export const metadata = {
   title: 'SAAS Review',
@@ -25,6 +26,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           </div>
           <ToastProvider />
           <ModalProvider />
+          <AuthProvider />
           {children}
         </ThemeProvider>
       </body>

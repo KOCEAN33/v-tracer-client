@@ -17,17 +17,17 @@ import $api from '@/lib/axios-interceptor';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { useAuth } from '@/hooks/use-auth-store';
+import { useUserData } from '@/hooks/use-auth-store';
 
 export function UserAvatarMenu() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const user = useAuth();
+  const user = useUserData();
 
   const logOut = async () => {
     try {
       const response = await $api.post('/auth/logout', {
-        userId: user?.id,
+        userId: user?.userId,
       });
 
       if (response.status == 201) {
@@ -51,7 +51,7 @@ export function UserAvatarMenu() {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 pl-1.5 transition">
               <Avatar className="h-9 w-9 cursor-pointer transition hover:shadow-md">
-                <AvatarImage src={user.imageSrc} />
+                <AvatarImage src={user?.image} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>

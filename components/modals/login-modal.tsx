@@ -31,8 +31,11 @@ import {
 } from '@/components/ui/form';
 
 import Cookies from 'js-cookie';
-import { useSetAuth } from '@/hooks/use-auth-store';
+
 import $api from '@/lib/axios-interceptor';
+import { getActions } from '@/hooks/use-auth-store';
+
+const { setAccessToken } = getActions();
 
 const loginSchema = z.object({
   email: z
@@ -45,7 +48,6 @@ const loginSchema = z.object({
 export const LoginModal = () => {
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
-  const setUser = useSetAuth();
 
   const isModalOpen = isOpen && type === 'logIn';
 
@@ -62,7 +64,7 @@ export const LoginModal = () => {
 
       Cookies.remove('token-access');
       Cookies.set('token-access', response.data.accessToken);
-      setUser(response.data.userData);
+      setAccessToken(response.data.accessToken);
 
       toast.success(`Hello ${response?.data?.userData?.name}`);
       form.reset();
