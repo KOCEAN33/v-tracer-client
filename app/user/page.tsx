@@ -1,7 +1,12 @@
+'use client';
+
 import { Separator } from '@/components/ui/separator';
 import { ProfileForm } from '@/app/user/profile-form';
+import { useUserData } from '@/hooks/use-auth-store';
 
 export default function SettingsProfilePage() {
+  const user = useUserData();
+
   return (
     <div className="space-y-6">
       <div>
@@ -11,7 +16,7 @@ export default function SettingsProfilePage() {
         </p>
       </div>
       <Separator />
-      <ProfileForm />
+      {/*<ProfileForm />*/}
     </div>
   );
 }
