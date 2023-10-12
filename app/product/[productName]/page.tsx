@@ -19,7 +19,7 @@ export interface ProductPageProps {
 
 //TODO : 1000이상 숫자는 1K로 짧게 수정
 
-const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
+const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   const reviews = SampleReviews;
   reviews.sort((a, b) => b.vote.up - a.vote.up);
   const topReviews = reviews.slice(0, 2);
