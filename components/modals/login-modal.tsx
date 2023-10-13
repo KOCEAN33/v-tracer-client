@@ -1,13 +1,15 @@
 'use client';
 
-import * as z from 'zod';
 import toast from 'react-hot-toast';
-
+import Cookies from 'js-cookie';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
+import $api from '@/lib/axios-interceptor';
 import { cn } from '@/lib/utils';
+import { getActions } from '@/hooks/use-auth-store';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
 
 import { Icons } from '@/components/icons';
@@ -30,11 +32,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import Cookies from 'js-cookie';
-
-import $api from '@/lib/axios-interceptor';
-import { getActions } from '@/hooks/use-auth-store';
-
 const { setAccessToken } = getActions();
 
 const loginSchema = z.object({
@@ -44,6 +41,8 @@ const loginSchema = z.object({
     .min(1, { message: '유효한 이메일 주소를 입력해주세요' }),
   password: z.string().min(6, { message: '비밀번호는 6자 이상이여야 합니다' }),
 });
+
+// TODO : Login with unverified account need to return error
 
 export const LoginModal = () => {
   const { isOpen, onClose, type, onOpen } = useModal();
@@ -59,23 +58,24 @@ export const LoginModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    try {
-      const response = await $api.post('/auth/login', values);
+    await $api
+      .post('/auth/login', values)
+      .then((response) => {
+        Cookies.remove('token-access');
 
-      Cookies.remove('token-access');
-      Cookies.set('token-access', response.data.accessToken);
-      setAccessToken(response.data.accessToken);
-
-      toast.success(`Hello ${response?.data?.userData?.name}`);
-      form.reset();
-      router.refresh();
-      onClose();
-    } catch (e: any) {
-      console.log(e);
-      if (e.response.data.message) {
-        toast.error(e.response.data.message);
-      }
-    }
+        if (response.data.statusCode === 201) {
+          Cookies.set('token-access', response.data.data.accessToken);
+          setAccessToken(response.data.data.accessToken);
+          toast.success(`Hello ${response?.data?.data?.userData?.name}`);
+          form.reset();
+          router.refresh();
+          onClose();
+        }
+      })
+      .catch((err) => {
+        console.error(JSON.stringify(err.response.data.message));
+        toast.error(err.response.data.message);
+      });
   };
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {

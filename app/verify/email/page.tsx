@@ -1,7 +1,4 @@
-
-
 export default function VerifyEmailPage() {
-  const
   return (
     <>
       <div>
@@ -9,6 +6,4 @@ export default function VerifyEmailPage() {
       </div>
     </>
   );
-};
-
-
+}

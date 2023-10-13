@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 const UserDataSchema = z.object({
   userId: z.string(),
   name: z.string(),
-  image: z.string().optional(),
+  image: z.string().nullish(),
 });
 
 type UserData = z.infer<typeof UserDataSchema>;
@@ -70,7 +70,7 @@ export const getActions = () => actionsSelector(useAuthStore.getState());
 
 // Hooks
 export const useUserData = () => useAuthStore(userDataSelector);
-export const useActions = () => useAuthStore(actionsSelector);
+export const useAuthActions = () => useAuthStore(actionsSelector);
 
 // HOW to fix zustand hydration error
 // https://dev.to/abdulsamad/how-to-use-zustands-persist-middleware-in-nextjs-4lb5

@@ -1,7 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import Cookies from 'js-cookie';
 
+import $api from '@/lib/axios-interceptor';
+import { nameSlicer } from '@/lib/name-slicer';
+
+import { useAuthActions, useUserData } from '@/hooks/use-auth-store';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,22 +20,17 @@ import {
   DropdownMenuSub,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import $api from '@/lib/axios-interceptor';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import { useUserData } from '@/hooks/use-auth-store';
 
 export function UserAvatarMenu() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const user = useUserData();
+  const userData = useUserData();
+  const authActions = useAuthActions();
 
   const logOut = async () => {
     try {
       const response = await $api.post('/auth/logout', {
-        userId: user?.userId,
+        userId: userData?.userId,
       });
 
       if (response.status == 201) {
@@ -40,6 +43,7 @@ export function UserAvatarMenu() {
       toast.error(err);
     } finally {
       Cookies.remove('token-access');
+      authActions.clearTokens();
       router.refresh();
     }
   };
@@ -51,8 +55,8 @@ export function UserAvatarMenu() {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 pl-1.5 transition">
               <Avatar className="h-9 w-9 cursor-pointer transition hover:shadow-md">
-                <AvatarImage src={user?.image} />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={userData?.image} />
+                <AvatarFallback>{nameSlicer(userData?.name)}</AvatarFallback>
               </Avatar>
             </div>
           </DropdownMenuTrigger>

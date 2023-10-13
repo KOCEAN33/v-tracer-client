@@ -39,7 +39,7 @@ $api.interceptors.response.use(
         const response = await authApi.get('auth/refresh');
 
         Cookies.remove('token-access');
-        Cookies.set('token-access', response.data.accessToken);
+        Cookies.set('token-access', response.data.data.accessToken);
 
         return $api.request(originalRequest);
       } catch (e) {
@@ -47,7 +47,7 @@ $api.interceptors.response.use(
         Cookies.remove('token-access');
         localStorage.removeItem('user-storage');
 
-        console.log('NOT AUTHORIZED OR INCORRECT ACCESS TOKEN FORMAT!');
+        // console.log('NOT AUTHORIZED OR INCORRECT ACCESS TOKEN FORMAT!');
       }
     }
     return Promise.reject(error);
