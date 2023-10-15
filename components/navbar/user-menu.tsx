@@ -1,7 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import Cookies from 'js-cookie';
 
+import $api from '@/lib/axios-interceptor';
+import { nameSlicer } from '@/lib/name-slicer';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,10 +18,30 @@ import {
   DropdownMenuSub,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
+import Link from 'next/link';
+import { useUserData } from '@/hooks/use-auth-store';
 
 export function UserAvatarMenu() {
   const [open, setOpen] = useState(false);
+  const user = useUserData();
+
+  const logOut = async () => {
+    await $api
+      .post('/auth/logout', {
+        userId: user?.userId,
+      })
+      .then((response) => {
+        toast.success(response.data.message);
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message);
+      })
+      .finally(() => {
+        Cookies.remove('token-access');
+        window.location.reload();
+      });
+  };
 
   return (
     <div className="relative">
@@ -24,21 +50,26 @@ export function UserAvatarMenu() {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 pl-1.5 transition">
               <Avatar className="h-9 w-9 cursor-pointer transition hover:shadow-md">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={user?.image} />
+                <AvatarFallback>{nameSlicer(user?.name)}</AvatarFallback>
               </Avatar>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[200px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuGroup>
-              <DropdownMenuItem>Assign to...</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/user">User Setting...</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>Set due date...</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuSub></DropdownMenuSub>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-600">
-                Delete
+              <DropdownMenuItem
+                onClick={() => logOut()}
+                className="text-red-600"
+              >
+                로그아웃
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

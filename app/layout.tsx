@@ -1,10 +1,11 @@
 import './globals.css';
 import '../public/static/fonts/pretendardvariable.css';
 
-import { ToastProvider } from '@/providers/toast-provider';
 import { SiteHeader } from '@/components/navbar/site-header';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ModalProvider } from '@/providers/modal-provider';
+import { ToastProvider } from '@/providers/toast-provider';
+import { AuthProvider } from '@/providers/auth-provider';
 
 export const metadata = {
   title: 'SAAS Review',
@@ -19,11 +20,11 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="kr">
       <body>
+        <AuthProvider />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <div className="relative flex flex-col">
             <SiteHeader />
           </div>
-
           <ToastProvider />
           <ModalProvider />
           {children}

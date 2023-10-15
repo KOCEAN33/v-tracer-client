@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { dateConverter } from '@/common/utils/date-converter';
+import { dateConverter } from '@/lib/date-converter';
 
 interface AuthorDateLineProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;

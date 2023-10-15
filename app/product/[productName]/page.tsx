@@ -3,9 +3,9 @@ import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
-import { OverviewReview } from '@/app/product/[productName]/components/overview-review';
-import { OverviewQuestion } from '@/app/product/[productName]/components/overview-question';
-import { OverviewProduct } from '@/app/product/[productName]/components/overview-product';
+import { OverviewReview } from '@/components/overview-review';
+import { OverviewQuestion } from '@/components/overview-question';
+import { OverviewProduct } from '@/components/overview-product';
 
 import { SampleReviews } from '@/app/product/[productName]/data/review';
 import { SampleQuestions } from '@/app/product/[productName]/data/questions';
@@ -19,7 +19,7 @@ export interface ProductPageProps {
 
 //TODO : 1000이상 숫자는 1K로 짧게 수정
 
-const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
+const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
   const reviews = SampleReviews;
   reviews.sort((a, b) => b.vote.up - a.vote.up);
   const topReviews = reviews.slice(0, 2);

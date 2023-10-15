@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
-import fingerprint from '@/common/utils/fingerprint';
+import fingerprint from '@/lib/fingerprint';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -13,9 +12,14 @@ const $api = axios.create({
   baseURL: `${API_URL}/api`,
 });
 
+const authApi = axios.create({
+  withCredentials: true,
+  baseURL: `${API_URL}/api`,
+});
+
 $api.interceptors.request.use(async (config) => {
-  config.headers.Authorization = `Bearer ${Cookies.get('token-access')}`;
-  config.headers.Fingerprint = await fingerprint;
+  config.headers.authorization = `Bearer ${Cookies.get('token-access')}`;
+  config.headers.fingerprint = await fingerprint;
   return config;
 });
 
@@ -32,18 +36,21 @@ $api.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        const response = await $api.get('/auth/refresh', {
-          withCredentials: true,
-        });
+        const response = await authApi.get('auth/refresh');
+
         Cookies.remove('token-access');
-        Cookies.set('token-access', response.data.accessToken);
+        Cookies.set('token-access', response.data.data.accessToken);
 
         return $api.request(originalRequest);
       } catch (e) {
+        // remove remained data
         Cookies.remove('token-access');
+        localStorage.removeItem('user-storage');
+
+        // console.log('NOT AUTHORIZED OR INCORRECT ACCESS TOKEN FORMAT!');
       }
     }
-    throw error;
+    return Promise.reject(error);
   },
 );
 

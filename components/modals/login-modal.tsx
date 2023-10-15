@@ -1,17 +1,17 @@
 'use client';
 
-import * as z from 'zod';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import $api from '@/common/http/axios-interceptor';
+import $api from '@/lib/axios-interceptor';
 import { cn } from '@/lib/utils';
+import { getActions } from '@/hooks/use-auth-store';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
 
-import { useAuthStore } from '@/common/store/auth-store';
 import { Icons } from '@/components/icons';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -32,6 +32,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
+const { setAccessToken } = getActions();
+
 const loginSchema = z.object({
   email: z
     .string()
@@ -41,8 +43,6 @@ const loginSchema = z.object({
 });
 
 export const LoginModal = () => {
-  const authStore = useAuthStore();
-
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
 
@@ -56,24 +56,23 @@ export const LoginModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    try {
-      const response = await $api.post('/auth/login', values);
+    await $api
+      .post('/auth/login', values)
+      .then((response) => {
+        Cookies.remove('token-access');
 
-      Cookies.remove('token-access');
-      Cookies.set('token-access', response.data.accessToken);
-
-      authStore.setUser(response.data.userData);
-
-      toast.success(response.data.message);
-      form.reset();
-      router.refresh();
-      onClose();
-    } catch (e: any) {
-      console.log(e);
-      // if (e.response.data.message) {
-      //   toast.error(e.response.data.message);
-      // }
-    }
+        if (response.data.statusCode === 201) {
+          Cookies.set('token-access', response.data.data.accessToken);
+          setAccessToken(response.data.data.accessToken);
+          toast.success(`Hello ${response.data.data.userData.name}`);
+          form.reset();
+          router.refresh();
+          onClose();
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
   };
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {

@@ -3,12 +3,13 @@
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
-import useStore from '@/hooks/use-store';
-import { useAuthStore } from '@/common/store/auth-store';
+
+import $api from '@/lib/axios-interceptor';
+import { useUserData } from '@/hooks/use-auth-store';
 
 const Home = () => {
   const { onOpen } = useModal();
-  const user = useStore(useAuthStore, (state) => state.user);
+  const user = useUserData();
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {
     e.stopPropagation();
@@ -17,7 +18,17 @@ const Home = () => {
 
   const testStore = () => {
     console.log(user);
-    toast.success(`hello ${JSON.stringify(user)}`);
+
+    toast.success(JSON.stringify(user?.userId));
+  };
+
+  const authTest = async () => {
+    if (user?.userId) {
+      const res = await $api.get('auth/test');
+      toast.success(JSON.stringify(res.data));
+    } else {
+      toast.error('you need to login');
+    }
   };
 
   return (
@@ -25,6 +36,7 @@ const Home = () => {
       <div className="flex space-x-2">
         <Button onClick={(e) => onAction(e, 'signUp')}>이거 열립니꽈</Button>
         <Button onClick={() => testStore()}>핑핑핑</Button>
+        <Button onClick={() => authTest()}>AuthTest</Button>
       </div>
     </>
   );
