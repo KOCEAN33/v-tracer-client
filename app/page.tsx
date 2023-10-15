@@ -18,6 +18,7 @@ const Home = () => {
 
   const testStore = () => {
     console.log(user);
+
     toast.success(JSON.stringify(user?.userId));
   };
 

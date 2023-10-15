@@ -1,6 +1,6 @@
 'use client';
 
-import * as z from 'zod';
+import { z } from 'zod';
 import toast from 'react-hot-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -55,16 +55,19 @@ export function SignUpModal() {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
-    try {
-      const response = await $api.post('/auth/signup', values);
-
-      toast.success(response.data.message);
-      form.reset();
-      router.refresh();
-      onClose();
-    } catch (e: any) {
-      toast.error(e.response.data.message);
-    }
+    await $api
+      .post('/auth/signup', values)
+      .then((response) => {
+        if (response.data.statusCode === 201) {
+          toast.success(response.data.message);
+          form.reset();
+          router.refresh();
+          onClose();
+        }
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message);
+      });
   };
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {

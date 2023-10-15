@@ -1,14 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 
 import $api from '@/lib/axios-interceptor';
 import { nameSlicer } from '@/lib/name-slicer';
 
-import { useAuthActions, useUserData } from '@/hooks/use-auth-store';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -21,31 +19,28 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import Link from 'next/link';
+import { useUserData } from '@/hooks/use-auth-store';
+
 export function UserAvatarMenu() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const userData = useUserData();
-  const authActions = useAuthActions();
+  const user = useUserData();
 
   const logOut = async () => {
-    try {
-      const response = await $api.post('/auth/logout', {
-        userId: userData?.userId,
-      });
-
-      if (response.status == 201) {
-        console.log(response);
+    await $api
+      .post('/auth/logout', {
+        userId: user?.userId,
+      })
+      .then((response) => {
         toast.success(response.data.message);
-      } else {
-        toast.success('logged out');
-      }
-    } catch (err: any) {
-      toast.error(err);
-    } finally {
-      Cookies.remove('token-access');
-      authActions.clearTokens();
-      router.refresh();
-    }
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message);
+      })
+      .finally(() => {
+        Cookies.remove('token-access');
+        window.location.reload();
+      });
   };
 
   return (
@@ -55,15 +50,17 @@ export function UserAvatarMenu() {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 pl-1.5 transition">
               <Avatar className="h-9 w-9 cursor-pointer transition hover:shadow-md">
-                <AvatarImage src={userData?.image} />
-                <AvatarFallback>{nameSlicer(userData?.name)}</AvatarFallback>
+                <AvatarImage src={user?.image} />
+                <AvatarFallback>{nameSlicer(user?.name)}</AvatarFallback>
               </Avatar>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[200px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuGroup>
-              <DropdownMenuItem>Assign to...</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/user">User Setting...</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>Set due date...</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuSub></DropdownMenuSub>

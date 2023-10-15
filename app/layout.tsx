@@ -20,13 +20,13 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="kr">
       <body>
+        <AuthProvider />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <div className="relative flex flex-col">
             <SiteHeader />
           </div>
           <ToastProvider />
           <ModalProvider />
-          <AuthProvider />
           {children}
         </ThemeProvider>
       </body>

@@ -5,17 +5,21 @@ import { useEffect, useState } from 'react';
 
 import { getActions } from '@/hooks/use-auth-store';
 
-const checkAuthStatus = () => {
-  const accessToken = Cookies.get('token-access');
+function checkAuthStatus() {
   const action = getActions();
-
-  if (accessToken) {
-    action.init();
-    return true;
+  try {
+    const accessToken = Cookies.get('token-access');
+    if (accessToken) {
+      action.init();
+      return true;
+    }
+  } catch (e) {
+    console.error(e);
+    return false;
+  } finally {
+    action.setLoaded();
   }
-
-  return false;
-};
+}
 
 export const AuthProvider = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

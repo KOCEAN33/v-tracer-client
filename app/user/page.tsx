@@ -1,11 +1,16 @@
 'use client';
 
 import { Separator } from '@/components/ui/separator';
-import { ProfileForm } from '@/app/user/profile-form';
-import { useUserData } from '@/hooks/use-auth-store';
+
+import { useAuthStore } from '@/hooks/use-auth-store';
+import { redirect } from 'next/navigation';
 
 export default function SettingsProfilePage() {
-  const user = useUserData();
+  const { isLoading, userData } = useAuthStore();
+
+  if (!isLoading && userData === undefined) {
+    redirect('/');
+  }
 
   return (
     <div className="space-y-6">

@@ -42,8 +42,6 @@ const loginSchema = z.object({
   password: z.string().min(6, { message: '비밀번호는 6자 이상이여야 합니다' }),
 });
 
-// TODO : Login with unverified account need to return error
-
 export const LoginModal = () => {
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
@@ -66,14 +64,13 @@ export const LoginModal = () => {
         if (response.data.statusCode === 201) {
           Cookies.set('token-access', response.data.data.accessToken);
           setAccessToken(response.data.data.accessToken);
-          toast.success(`Hello ${response?.data?.data?.userData?.name}`);
+          toast.success(`Hello ${response.data.data.userData.name}`);
           form.reset();
           router.refresh();
           onClose();
         }
       })
       .catch((err) => {
-        console.error(JSON.stringify(err.response.data.message));
         toast.error(err.response.data.message);
       });
   };

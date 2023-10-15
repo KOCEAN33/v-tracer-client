@@ -7,15 +7,17 @@ import Cookies from 'js-cookie';
 const UserDataSchema = z.object({
   userId: z.string(),
   name: z.string(),
-  image: z.string().nullish(),
+  image: z.string().optional(),
 });
 
 type UserData = z.infer<typeof UserDataSchema>;
 
 type AuthStore = {
+  isLoading: boolean;
   userData: UserData | undefined;
   accessToken: string | undefined;
   actions: {
+    setLoaded: () => void;
     setAccessToken: (accessToken: string | undefined) => void;
     init: () => void;
     clearTokens: () => void;
@@ -26,9 +28,11 @@ const decodeAccessToken = (accessToken: string) =>
   UserDataSchema.parse(jwtDecode<UserData>(accessToken));
 
 export const useAuthStore = create<AuthStore>()((set, get) => ({
+  isLoading: true,
   userData: undefined,
   accessToken: undefined,
   actions: {
+    setLoaded: () => set({ isLoading: false }),
     setAccessToken: (accessToken: string | undefined) => {
       const userData = (() => {
         try {
