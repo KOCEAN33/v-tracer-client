@@ -3,13 +3,14 @@
 import { Separator } from '@/components/ui/separator';
 
 import { useAuthStore } from '@/hooks/use-auth-store';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function SettingsProfilePage() {
   const { isLoading, userData } = useAuthStore();
+  const router = useRouter();
 
   if (!isLoading && userData === undefined) {
-    redirect('/');
+    router.push('/');
   }
 
   return (

@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 
 import $api from '@/lib/axios-interceptor';
-import { nameSlicer } from '@/lib/name-slicer';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -25,6 +24,13 @@ import { useUserData } from '@/hooks/use-auth-store';
 export function UserAvatarMenu() {
   const [open, setOpen] = useState(false);
   const user = useUserData();
+
+  function nameSlicer(name: string | undefined): string | undefined {
+    if (name === undefined) {
+      return undefined;
+    }
+    return name.slice(0, 2).toUpperCase();
+  }
 
   const logOut = async () => {
     await $api
