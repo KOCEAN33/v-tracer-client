@@ -1,14 +1,15 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import { z } from 'zod';
 import $api from '@/lib/axios-interceptor';
-import toast from 'react-hot-toast';
+
+import { useQuery } from '@tanstack/react-query';
 
 enum STATUS {
   NOCODE = 0,
-  VERIFYING = 1,
+  LOADING = 1,
   SUCCESS = 2,
   FAILURE = 3,
 }
@@ -16,36 +17,46 @@ enum STATUS {
 const verifyCodeSchema = z.string().length(10);
 
 export const EmailVerifyCard = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const code = searchParams.get('verifyCode');
+  const getVerifyCode = searchParams.get('verifyCode');
 
+  const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(STATUS.NOCODE);
 
-  useLayoutEffect(() => {
-    const fetchData = async () => {
-      try {
-        setStatus(STATUS.VERIFYING);
-        await $api
-          .post('/auth/verify/email', code)
-          .then((response) => {
-            if (response.data.statusCode === 201) {
-              // success verify
-              setStatus(STATUS.SUCCESS);
-            }
-          })
-          .catch((e) => {
-            setStatus(STATUS.FAILURE);
-            toast.error(e.response.data.message);
-          });
-      } catch (e) {
+  const { isError, refetch } = useQuery({
+    queryKey: ['verifyEmail'],
+    queryFn: () =>
+      $api
+        .post('auth/verify/email', { verifyCode: getVerifyCode })
+        .then((response) => {
+          if (response.data.statusCode === 201) {
+            setStatus(STATUS.SUCCESS);
+            return response.data;
+          }
+        })
+        .catch((e) => {
+          setStatus(STATUS.FAILURE);
+          return e.response.data;
+        }),
+    enabled: false,
+  });
+
+  const handleSendData = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    setLoading(false);
+    if (getVerifyCode) {
+      const parse = verifyCodeSchema.safeParse(getVerifyCode);
+      if (parse.success) {
+        setStatus(STATUS.LOADING);
+        handleSendData();
+      } else {
         setStatus(STATUS.FAILURE);
       }
-    };
-    if (code) {
-      fetchData();
     }
-  }, []);
+  }, [loading]);
 
   let pageContent = (
     <div>
@@ -53,7 +64,7 @@ export const EmailVerifyCard = () => {
     </div>
   );
 
-  if (status === STATUS.VERIFYING) {
+  if (status === STATUS.LOADING) {
     pageContent = (
       <div>
         <h1>코드 확인중입니다</h1>
@@ -69,7 +80,7 @@ export const EmailVerifyCard = () => {
     );
   }
 
-  if (status === STATUS.FAILURE) {
+  if (status === STATUS.FAILURE || isError) {
     pageContent = (
       <div>
         <h1>코드 확인에 실패했습니다</h1>
