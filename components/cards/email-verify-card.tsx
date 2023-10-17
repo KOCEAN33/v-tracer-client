@@ -2,10 +2,10 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { z } from 'zod';
-import $api from '@/lib/axios-interceptor';
-
 import { useQuery } from '@tanstack/react-query';
+import { z } from 'zod';
+
+import $api from '@/lib/axios-interceptor';
 
 enum STATUS {
   NOCODE = 0,

@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
-import { InfoCard } from '@/components/info-card';
+import { InfoCard } from '@/components/cards/info-card';
 
 import { Product } from '@/app/product/[productName]/data/product';
 

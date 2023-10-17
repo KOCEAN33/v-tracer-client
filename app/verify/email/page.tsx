@@ -1,6 +1,4 @@
-'use client';
-
-import { EmailVerifyCard } from '@/components/email-verify-card';
+import { EmailVerifyCard } from '@/components/cards/email-verify-card';
 
 export default function VerifyEmailPage() {
   return (
