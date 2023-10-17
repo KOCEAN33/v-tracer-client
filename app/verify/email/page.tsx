@@ -1,12 +1,10 @@
-import { useRouter } from 'next/navigation';
+import { EmailVerifyCard } from '@/components/cards/email-verify-card';
 
 export default function VerifyEmailPage() {
-  const router = useRouter();
-
   return (
     <>
       <div>
-        <h1>Verify Email address </h1>
+        <EmailVerifyCard />
       </div>
     </>
   );
