@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import jwtDecode from 'jwt-decode';
 import Cookies from 'js-cookie';
+import { devtools } from 'zustand/middleware';
 
 const UserDataSchema = z.object({
   userId: z.string(),
@@ -27,30 +28,32 @@ type AuthStore = {
 const decodeAccessToken = (accessToken: string) =>
   UserDataSchema.parse(jwtDecode<UserData>(accessToken));
 
-export const useAuthStore = create<AuthStore>()((set, get) => ({
-  isLoading: true,
-  userData: undefined,
-  accessToken: undefined,
-  actions: {
-    setLoaded: () => set({ isLoading: false }),
-    setAccessToken: (accessToken: string | undefined) => {
-      const userData = (() => {
-        try {
-          return accessToken ? decodeAccessToken(accessToken) : undefined;
-        } catch (e) {
-          console.error(e);
-          return undefined;
-        }
-      })();
-      set({ accessToken, userData });
+export const useAuthStore = create<AuthStore>()(
+  devtools((set, get) => ({
+    isLoading: true,
+    userData: undefined,
+    accessToken: undefined,
+    actions: {
+      setLoaded: () => set({ isLoading: false }),
+      setAccessToken: (accessToken: string | undefined) => {
+        const userData = (() => {
+          try {
+            return accessToken ? decodeAccessToken(accessToken) : undefined;
+          } catch (e) {
+            console.error(e);
+            return undefined;
+          }
+        })();
+        set({ accessToken, userData });
+      },
+      init: () => {
+        const { setAccessToken } = get().actions;
+        setAccessToken(Cookies.get('token-access'));
+      },
+      clearTokens: () => set({ userData: undefined, accessToken: undefined }),
     },
-    init: () => {
-      const { setAccessToken } = get().actions;
-      setAccessToken(Cookies.get('token-access'));
-    },
-    clearTokens: () => set({ userData: undefined, accessToken: undefined }),
-  },
-}));
+  })),
+);
 
 export type ExtractState<S> = S extends {
   getState: () => infer T;

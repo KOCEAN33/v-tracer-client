@@ -12,10 +12,19 @@ import { UserAvatarMenu } from '@/components/navbar/user-menu';
 
 import { useUserData } from '@/hooks/use-auth-store';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
+import { useEffect, useState } from 'react';
+import { getCookie } from 'cookies-next';
 
 export function SiteHeader() {
   const { onOpen } = useModal();
-  const user = useUserData();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const token = getCookie('token-access');
+
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, [token, isLoggedIn]);
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {
     e.stopPropagation();
@@ -67,8 +76,9 @@ export function SiteHeader() {
               </div>
             </Link>
             <ModeToggle />
-            {user ? (
-              <UserAvatarMenu />
+            {isLoggedIn ? (
+              // <UserAvatarMenu />
+              <p>로그인됨</p>
             ) : (
               <Button className="ml-2" onClick={(e) => onAction(e, 'logIn')}>
                 로그인

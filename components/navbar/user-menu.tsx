@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 
@@ -20,10 +20,14 @@ import {
 
 import Link from 'next/link';
 import { useUserData } from '@/hooks/use-auth-store';
+import { getCookie } from 'cookies-next';
+import { useUserProfile } from '@/hooks/use-user-profile';
 
 export function UserAvatarMenu() {
   const [open, setOpen] = useState(false);
   const user = useUserData();
+  const token = getCookie('token-access');
+  const { data } = useUserProfile();
 
   function nameSlicer(name: string | undefined): string | undefined {
     if (name === undefined) {
@@ -56,8 +60,8 @@ export function UserAvatarMenu() {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 pl-1.5 transition">
               <Avatar className="h-9 w-9 cursor-pointer transition hover:shadow-md">
-                <AvatarImage src={user?.image} />
-                <AvatarFallback>{nameSlicer(user?.name)}</AvatarFallback>
+                <AvatarImage src={data?.image} />
+                <AvatarFallback>{nameSlicer(data?.name)}</AvatarFallback>
               </Avatar>
             </div>
           </DropdownMenuTrigger>
