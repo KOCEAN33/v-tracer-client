@@ -76,14 +76,8 @@ export function SiteHeader() {
               </div>
             </Link>
             <ModeToggle />
-            {isLoggedIn ? (
-              // <UserAvatarMenu />
-              <p>로그인됨</p>
-            ) : (
-              <Button className="ml-2" onClick={(e) => onAction(e, 'logIn')}>
-                로그인
-              </Button>
-            )}
+
+            <UserAvatarMenu />
           </div>
         </nav>
       </div>

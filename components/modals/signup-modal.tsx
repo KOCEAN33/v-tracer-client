@@ -54,8 +54,8 @@ export function SignUpModal() {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
-    await $api
+  const onSubmit = (values: z.infer<typeof signUpSchema>) => {
+    $api
       .post('/auth/signup', values)
       .then((response) => {
         if (response.data.statusCode === 201) {

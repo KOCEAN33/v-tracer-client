@@ -1,7 +1,6 @@
 'use client';
 
 import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -9,7 +8,6 @@ import { useForm } from 'react-hook-form';
 
 import $api from '@/lib/axios-interceptor';
 import { cn } from '@/lib/utils';
-import { getActions } from '@/hooks/use-auth-store';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
 
 import { Icons } from '@/components/icons';
@@ -31,8 +29,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-
-const { setAccessToken } = getActions();
+import { getActions } from '@/hooks/use-auth-store';
+import { deleteCookie, setCookie } from 'cookies-next';
 
 const loginSchema = z.object({
   email: z
@@ -45,6 +43,7 @@ const loginSchema = z.object({
 export const LoginModal = () => {
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
+  const action = getActions();
 
   const isModalOpen = isOpen && type === 'logIn';
 
@@ -55,23 +54,27 @@ export const LoginModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    await $api
+  const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    $api
       .post('/auth/login', values)
       .then((response) => {
-        Cookies.remove('token-access');
+        deleteCookie('token-access');
 
         if (response.data.statusCode === 201) {
-          Cookies.set('token-access', response.data.data.accessToken);
-          setAccessToken(response.data.data.accessToken);
-          toast.success(`Hello ${response.data.data.userData.name}`);
+          setCookie('token-access', response.data.data.accessToken);
+          action.setLoggedIn();
+          toast.success('로그인 성공');
           form.reset();
-          router.refresh();
           onClose();
+          router.refresh();
         }
       })
-      .catch((err) => {
-        toast.error(err.response.data.message);
+      .catch((e: any) => {
+        if (e.response.data.statusCode === 500) {
+          toast.error('잠시후 다시 시도해주세요');
+        } else {
+          toast.error('로그인에 실패했습니다');
+        }
       });
   };
 

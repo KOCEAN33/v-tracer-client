@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import Link from 'next/link';
 import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
+import { deleteCookie } from 'cookies-next';
 
 import $api from '@/lib/axios-interceptor';
+import { nameSlicer } from '@/lib/name-slicer';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -17,41 +19,50 @@ import {
   DropdownMenuSub,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 
-import Link from 'next/link';
-import { useUserData } from '@/hooks/use-auth-store';
-import { getCookie } from 'cookies-next';
+import { getActions, useAuth } from '@/hooks/use-auth-store';
+import { ModalType, useModal } from '@/hooks/use-modal-store';
 import { useUserProfile } from '@/hooks/use-user-profile';
 
 export function UserAvatarMenu() {
+  const login = useAuth();
+  // const router = useRouter();
+  const action = getActions();
+  const { onOpen } = useModal();
+
   const [open, setOpen] = useState(false);
-  const user = useUserData();
-  const token = getCookie('token-access');
-  const { data } = useUserProfile();
+  const { data, isLoading, isError } = useUserProfile();
 
-  function nameSlicer(name: string | undefined): string | undefined {
-    if (name === undefined) {
-      return undefined;
-    }
-    return name.slice(0, 2).toUpperCase();
-  }
-
-  const logOut = async () => {
-    await $api
+  const logOut = () => {
+    $api
       .post('/auth/logout', {
-        userId: user?.userId,
-      })
-      .then((response) => {
-        toast.success(response.data.message);
+        userId: data?.userId,
       })
       .catch((e) => {
         toast.error(e.response.data.message);
       })
       .finally(() => {
-        Cookies.remove('token-access');
+        deleteCookie('token-access');
+        action.setLogout();
+        toast.success('로그아웃 되었습니다');
+        // router.refresh(); react-query의 캐시 데이터가 잠깐동안 사용가능함
         window.location.reload();
       });
   };
+
+  const onAction = (e: React.MouseEvent, action: ModalType) => {
+    e.stopPropagation();
+    onOpen(action);
+  };
+
+  if (!login || isError || isLoading) {
+    return (
+      <Button className="ml-2" onClick={(e) => onAction(e, 'logIn')}>
+        로그인
+      </Button>
+    );
+  }
 
   return (
     <div className="relative">

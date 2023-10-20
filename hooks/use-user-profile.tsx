@@ -1,8 +1,7 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import $api from '@/lib/axios-interceptor';
 import { z } from 'zod';
-import toast from 'react-hot-toast';
-import { getCookie } from 'cookies-next';
+import { useAuth } from '@/hooks/use-auth-store';
 
 const UserProfileSchema = z.object({
   userId: z.string(),
@@ -18,5 +17,12 @@ const getUserProfile = async (): Promise<UserProfile> => {
 };
 
 export const useUserProfile = () => {
-  return useQuery({ queryKey: ['myProfile'], queryFn: () => getUserProfile() });
+  const login = useAuth();
+  return useQuery({
+    queryKey: ['myProfile'],
+    queryFn: () => getUserProfile(),
+    enabled: !!login,
+  });
 };
+
+// TODO: React-Query 캐싱 처리

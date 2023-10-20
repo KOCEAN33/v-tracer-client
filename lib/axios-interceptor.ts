@@ -1,19 +1,15 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import fingerprint from '@/lib/fingerprint';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import { getActions } from '@/hooks/use-auth-store';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const action = getActions();
 
 const $api = axios.create({
   validateStatus: function (status) {
     return status == 200 || status == 201;
   },
-  withCredentials: true,
-  baseURL: `${API_URL}/api`,
-});
-
-const authApi = axios.create({
   withCredentials: true,
   baseURL: `${API_URL}/api`,
 });
@@ -45,20 +41,21 @@ $api.interceptors.response.use(
         });
 
         deleteCookie('token-access');
-        console.log(response.data.data.accessToken);
         setCookie('token-access', response.data.data.accessToken);
+        action.setLoggedIn();
 
         return $api.request(originalRequest);
       } catch (e) {
         // remove remained data
         console.log({ e });
         deleteCookie('token-access');
+        action.setLogout();
 
         // console.log('NOT AUTHORIZED OR INCORRECT ACCESS TOKEN FORMAT!');
       }
     }
-    //return Promise.reject(error);
-    return error;
+    return Promise.reject(error);
+    // return error;
   },
 );
 
