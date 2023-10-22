@@ -12,7 +12,7 @@ const UserProfileSchema = z.object({
 type UserProfile = z.infer<typeof UserProfileSchema>;
 
 const getUserProfile = async (): Promise<UserProfile> => {
-  const res = await $api.get('/auth/myinfo');
+  const res = await $api.get('/users/getme');
   return res.data.data;
 };
 
@@ -22,7 +22,8 @@ export const useUserProfile = () => {
     queryKey: ['myProfile'],
     queryFn: () => getUserProfile(),
     enabled: !!login,
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
   });
 };
-
-// TODO: React-Query 캐싱 처리
