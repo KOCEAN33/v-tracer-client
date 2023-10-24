@@ -1,10 +1,10 @@
-import { EmailVerifyCard } from '@/components/cards/email-verify-card';
+import { VerifyEmail } from '@/components/verify-email';
 
 export default function VerifyEmailPage() {
   return (
     <>
       <div>
-        <EmailVerifyCard />
+        <VerifyEmail />
       </div>
     </>
   );

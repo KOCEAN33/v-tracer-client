@@ -10,21 +10,12 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { ModeToggle } from '@/components/navbar/dark-mode-toggle';
 import { UserAvatarMenu } from '@/components/navbar/user-menu';
 
-import { useUserData } from '@/hooks/use-auth-store';
+import { useAuth } from '@/hooks/use-auth-store';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
-import { useEffect, useState } from 'react';
-import { getCookie } from 'cookies-next';
 
 export function SiteHeader() {
   const { onOpen } = useModal();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const token = getCookie('token-access');
-
-  useEffect(() => {
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, [token, isLoggedIn]);
+  const login = useAuth();
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {
     e.stopPropagation();
@@ -77,7 +68,13 @@ export function SiteHeader() {
             </Link>
             <ModeToggle />
 
-            <UserAvatarMenu />
+            {!login ? (
+              <Button className="ml-2" onClick={(e) => onAction(e, 'logIn')}>
+                로그인
+              </Button>
+            ) : (
+              <UserAvatarMenu />
+            )}
           </div>
         </nav>
       </div>

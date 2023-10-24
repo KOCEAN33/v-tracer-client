@@ -16,7 +16,7 @@ enum STATUS {
 
 const verifyCodeSchema = z.string().length(10);
 
-export const EmailVerifyCard = () => {
+export const VerifyEmail = () => {
   const searchParams = useSearchParams();
   const getVerifyCode = searchParams.get('verifyCode');
 

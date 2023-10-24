@@ -19,17 +19,12 @@ import {
   DropdownMenuSub,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
 
-import { getActions, useAuth } from '@/hooks/use-auth-store';
-import { ModalType, useModal } from '@/hooks/use-modal-store';
+import { getActions } from '@/hooks/use-auth-store';
 import { useUserProfile } from '@/hooks/use-user-profile';
 
 export function UserAvatarMenu() {
-  const login = useAuth();
-  // const router = useRouter();
   const action = getActions();
-  const { onOpen } = useModal();
 
   const [open, setOpen] = useState(false);
   const { data, isLoading, isError } = useUserProfile();
@@ -51,17 +46,8 @@ export function UserAvatarMenu() {
       });
   };
 
-  const onAction = (e: React.MouseEvent, action: ModalType) => {
-    e.stopPropagation();
-    onOpen(action);
-  };
-
-  if (!login || isError || isLoading) {
-    return (
-      <Button className="ml-2" onClick={(e) => onAction(e, 'logIn')}>
-        로그인
-      </Button>
-    );
+  if (isError || isLoading) {
+    return null;
   }
 
   return (
