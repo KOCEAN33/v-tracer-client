@@ -16,17 +16,13 @@ export interface ProductPageProps {
     productName: string;
   };
 }
-
-//TODO : 1000이상 숫자는 1K로 짧게 수정
-
-const ProductPage: React.FC<ProductPageProps> = ({ params }) => {
+const ProductPage: React.FC<ProductPageProps> = () => {
   const reviews = SampleReviews;
   reviews.sort((a, b) => b.vote.up - a.vote.up);
   const topReviews = reviews.slice(0, 2);
   const questions = SampleQuestions;
   questions.sort((a) => a.vote.up - a.vote.down);
   const topQuestions = questions.slice(0, 1);
-  const userId = '13294710234';
 
   return (
     <>

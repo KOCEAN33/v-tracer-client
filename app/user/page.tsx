@@ -3,28 +3,19 @@
 import { Separator } from '@/components/ui/separator';
 
 import { useAuthStore } from '@/hooks/use-auth-store';
-import { redirect, useRouter } from 'next/navigation';
-import { getCookie } from 'cookies-next';
+import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 export default function SettingsProfilePage() {
-  const { isLoading, userData } = useAuthStore();
-  const router = useRouter();
-  const cookie = getCookie('token-access');
-
-  // if (!cookie) {
-  //   redirect('/');
-  //   toast.error('로그인이 필요합니다');
-  // }
+  const { isLoggedIn } = useAuthStore();
 
   useEffect(() => {
-    console.log(cookie);
-    if (!cookie) {
-      redirect('/');
+    if (!isLoggedIn) {
       toast.error('로그인이 필요합니다');
+      redirect('/');
     }
-  }, [cookie]);
+  }, [isLoggedIn]);
 
   return (
     <div className="space-y-6">

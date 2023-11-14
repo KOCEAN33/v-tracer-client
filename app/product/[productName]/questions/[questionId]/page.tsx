@@ -7,13 +7,9 @@ import { QuestionDetail } from '@/app/product/[productName]/questions/components
 import { AnswerCard } from '@/app/product/[productName]/questions/components/answer-card';
 import { AnswersSeparator } from '@/app/product/[productName]/questions/components/answers-separator';
 
-interface QuestionPageProps extends React.HTMLAttributes<HTMLDivElement> {
-  params: { questionId: string };
-}
-
 // TODO: 답변 카드에 대한 최소 height 설정
 
-const QuestionPage: React.FC<QuestionPageProps> = ({ params, className }) => {
+const QuestionPage = () => {
   const qna = questionDetail;
   return (
     <>

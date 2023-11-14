@@ -7,13 +7,7 @@ import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { SampleReviews } from '@/app/product/[productName]/data/review';
 import { ReviewCard } from '@/app/product/[productName]/reviews/components/review-card';
 
-interface ProductReviewsPageProps {
-  params: {
-    productName: string;
-  };
-}
-
-const ProductReviewsPage: React.FC<ProductReviewsPageProps> = ({ params }) => {
+const ProductReviewsPage = () => {
   const reviews = SampleReviews;
   const userId = '6494ed4bcdebc4eb4c615c25';
 

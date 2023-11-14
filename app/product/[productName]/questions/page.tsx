@@ -6,15 +6,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { SampleQuestions } from '@/app/product/[productName]/data/questions';
 import { TextCard } from '@/components/post-card';
 
-interface ProductQuestionsPageProps {
-  params: {
-    productName: string;
-  };
-}
-
-const ProductQuestionsPage: React.FC<ProductQuestionsPageProps> = ({
-  params,
-}) => {
+const ProductQuestionsPage = () => {
   const questions = SampleQuestions;
   return (
     <>
