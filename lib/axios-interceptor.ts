@@ -1,5 +1,4 @@
 import axios from 'axios';
-import fingerprint from '@/lib/fingerprint';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import { getActions } from '@/hooks/use-auth-store';
 
@@ -16,7 +15,6 @@ const $api = axios.create({
 
 $api.interceptors.request.use(async (config) => {
   config.headers.authorization = `Bearer ${getCookie('token-access')}`;
-  config.headers.fingerprint = await fingerprint;
   return config;
 });
 
@@ -35,9 +33,6 @@ $api.interceptors.response.use(
       try {
         const response = await axios.get(`${API_URL}/api/auth/refresh`, {
           withCredentials: true,
-          headers: {
-            fingerprint: await fingerprint,
-          },
         });
 
         deleteCookie('token-access');
