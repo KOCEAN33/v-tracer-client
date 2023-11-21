@@ -2,16 +2,16 @@ import './globals.css';
 import '../public/static/fonts/pretendardvariable.css';
 
 import { SiteHeader } from '@/components/navbar/site-header';
-import { Toaster } from '@/components/ui/toaster';
+
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ModalProvider } from '@/components/providers/modal-provider';
-import { ToastProvider } from '@/components/providers/toast-provider';
 import { AuthProvider } from '@/components/providers/auth-provider';
 import { ReactQueryProvider } from '@/components/providers/react-query-provider';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata = {
-  title: 'SAAS Review',
-  description: 'SAAS Review service by tries.io',
+  title: 'tries.io',
+  description: 'by tries.io',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
@@ -20,7 +20,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <html lang="en" suppressHydrationWarning>
         <head />
         <body>
-          <ToastProvider />
           <ModalProvider />
           <AuthProvider />
           <Toaster />

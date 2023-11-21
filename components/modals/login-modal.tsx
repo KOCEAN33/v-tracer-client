@@ -1,12 +1,11 @@
 'use client';
 
-import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import $api from '@/lib/axios-interceptor';
+import $api, { API_URL } from '@/lib/axios-interceptor';
 import { cn } from '@/lib/utils';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
 
@@ -31,12 +30,13 @@ import {
 } from '@/components/ui/form';
 import { getActions } from '@/hooks/use-auth-store';
 import { deleteCookie, setCookie } from 'cookies-next';
+import toast from 'react-hot-toast';
 
 const loginSchema = z.object({
   email: z
     .string()
-    .email()
-    .min(1, { message: '유효한 이메일 주소를 입력해주세요' }),
+    .email({ message: '유효한 이메일 주소를 입력해주세요' })
+    .min(1),
   password: z.string().min(6, { message: '비밀번호는 6자 이상이여야 합니다' }),
 });
 
@@ -44,6 +44,55 @@ export const LoginModal = () => {
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
   const action = getActions();
+
+  const googleLogin = () => {
+    window.open(
+      `${API_URL}/api/auth/google`,
+      'Auth',
+      // 'width=500,height=700,status=yes,toolbar=no,menubar=no,location=no', // window.params
+    );
+    if (typeof window !== 'undefined') {
+      window.addEventListener('message', (e) => {
+        if (e.origin !== API_URL) return;
+        const userData: any = JSON.parse(e.data);
+        if (userData) {
+          if (userData.statusCode == 409) {
+            toast.error('이 이메일은 이미 존재합니다');
+            form.reset();
+            onClose();
+            return;
+          }
+          console.log({ userData });
+          $api
+            .post('/auth/gen_token', {
+              userId: userData.userId,
+              provider: userData.provider,
+              externalId: userData.externalId,
+              accessToken: userData.accessToken,
+            })
+            .then((response) => {
+              deleteCookie('token-access');
+
+              if (response.data.statusCode == 201) {
+                setCookie('token-access', response.data.data.accessToken);
+                action.setLoggedIn();
+                toast.success('로그인 성공');
+                form.reset();
+                onClose();
+                router.refresh();
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+              toast.error('로그인 실패');
+            });
+        } else {
+          console.log('access token или googleId отсутствуют');
+        }
+        return;
+      });
+    }
+  };
 
   const isModalOpen = isOpen && type === 'logIn';
 
@@ -96,20 +145,20 @@ export const LoginModal = () => {
             Enter your email below to create your account
           </CardDescription>
         </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <CardContent className="grid gap-4">
-              <div className="grid grid-cols-2 gap-6">
-                <Button variant="outline">
-                  <Icons.gitHub className="mr-2 h-4 w-4" />
-                  Github
-                </Button>
-                <Button variant="outline">
-                  <Icons.google className="mr-2 h-4 w-4" />
-                  Google
-                </Button>
-              </div>
 
+        <CardContent className="grid gap-4">
+          <div className="grid grid-cols-2 gap-6">
+            <Button variant="outline">
+              <Icons.gitHub className="mr-2 h-4 w-4" />
+              Github
+            </Button>
+            <Button variant="outline" onClick={() => googleLogin()}>
+              <Icons.google className="mr-2 h-4 w-4" />
+              Google
+            </Button>
+          </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
@@ -120,7 +169,6 @@ export const LoginModal = () => {
                   </span>
                 </div>
               </div>
-
               <div>
                 <FormField
                   control={form.control}
@@ -160,27 +208,28 @@ export const LoginModal = () => {
                     </FormItem>
                   )}
                 />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <div className="flex w-full flex-col space-y-5">
+              </div>{' '}
+              <div className="pt-6">
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   로그인
                 </Button>
-
-                <div className="flex flex-row space-x-2">
-                  <p className="grid gap-4">아직 계정이 없으신가요?</p>
-                  <p
-                    onClick={(e) => onAction(e, 'signUp')}
-                    className="cursor-pointer font-semibold underline underline-offset-4"
-                  >
-                    계정 만들기
-                  </p>
-                </div>
               </div>
-            </CardFooter>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter>
+          {/*<div className="flex w-full flex-col space-y-5">*/}
+          <div className="flex flex-row space-x-2">
+            <p className="grid gap-4">아직 계정이 없으신가요?</p>
+            <p
+              onClick={(e) => onAction(e, 'signUp')}
+              className="cursor-pointer font-semibold underline underline-offset-4"
+            >
+              계정 만들기
+            </p>
+          </div>
+          {/*</div>*/}
+        </CardFooter>
       </DialogContent>
     </Dialog>
   );
