@@ -46,48 +46,30 @@ export const LoginModal = () => {
   const action = getActions();
 
   const googleLogin = () => {
-    window.open(
-      `${API_URL}/api/auth/google`,
-      'Auth',
-      // 'width=500,height=700,status=yes,toolbar=no,menubar=no,location=no', // window.params
-    );
+    window.open(`${API_URL}/api/auth/google`, 'Auth');
     if (typeof window !== 'undefined') {
       window.addEventListener('message', (e) => {
         if (e.origin !== API_URL) return;
-        const userData: any = JSON.parse(e.data);
-        if (userData) {
-          if (userData.statusCode == 409) {
+        const resData: any = JSON.parse(e.data);
+        if (resData) {
+          if (resData.statusCode == 409) {
             toast.error('이 이메일은 이미 존재합니다');
             form.reset();
             onClose();
             return;
           }
-          console.log({ userData });
-          $api
-            .post('/auth/gen_token', {
-              userId: userData.userId,
-              provider: userData.provider,
-              externalId: userData.externalId,
-              accessToken: userData.accessToken,
-            })
-            .then((response) => {
-              deleteCookie('token-access');
 
-              if (response.data.statusCode == 201) {
-                setCookie('token-access', response.data.data.accessToken);
-                action.setLoggedIn();
-                toast.success('로그인 성공');
-                form.reset();
-                onClose();
-                router.refresh();
-              }
-            })
-            .catch((e) => {
-              console.log(e);
-              toast.error('로그인 실패');
-            });
+          if (resData.statusCode == 200) {
+            deleteCookie('token-access');
+            setCookie('token-access', resData.accessToken);
+            action.setLoggedIn();
+            toast.success('로그인 성공');
+            form.reset();
+            onClose();
+            router.refresh();
+          }
         } else {
-          console.log('access token или googleId отсутствуют');
+          toast.error('알 수 없는 오류로 로그인 실패');
         }
         return;
       });
