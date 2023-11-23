@@ -31,6 +31,7 @@ import {
 import { getActions } from '@/hooks/use-auth-store';
 import { deleteCookie, setCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
+import { useState } from 'react';
 
 const loginSchema = z.object({
   email: z
@@ -42,11 +43,14 @@ const loginSchema = z.object({
 
 export const LoginModal = () => {
   const { isOpen, onClose, type, onOpen } = useModal();
+  const [isSocialLoading, setSocialLoading] = useState<boolean>(false);
   const router = useRouter();
   const action = getActions();
 
-  const googleLogin = () => {
-    window.open(`${API_URL}/api/auth/google`, 'Auth');
+  const socialLogin = (event: React.MouseEvent, provider: string) => {
+    event.stopPropagation();
+    setSocialLoading(true);
+    window.open(`${API_URL}/api/auth/${provider}`, 'Auth');
     if (typeof window !== 'undefined') {
       window.addEventListener('message', (e) => {
         if (e.origin !== API_URL) return;
@@ -54,23 +58,24 @@ export const LoginModal = () => {
         if (resData) {
           if (resData.statusCode == 409) {
             toast.error('이 이메일은 이미 존재합니다');
-            form.reset();
             onClose();
+            setSocialLoading(false);
             return;
           }
-
           if (resData.statusCode == 200) {
             deleteCookie('token-access');
             setCookie('token-access', resData.accessToken);
             action.setLoggedIn();
             toast.success('로그인 성공');
-            form.reset();
+            setSocialLoading(false);
             onClose();
             router.refresh();
           }
         } else {
+          setSocialLoading(false);
           toast.error('알 수 없는 오류로 로그인 실패');
         }
+        setSocialLoading(false);
         return;
       });
     }
@@ -110,6 +115,7 @@ export const LoginModal = () => {
   };
 
   const onAction = (e: React.MouseEvent, action: ModalType) => {
+    form.reset();
     e.stopPropagation();
     onOpen(action);
   };
@@ -124,17 +130,25 @@ export const LoginModal = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">로그인 하기</CardTitle>
           <CardDescription>
-            Enter your email below to create your account
+            로그인을 위해 이메일과 패스워드를 입력해 주세요
           </CardDescription>
         </CardHeader>
 
         <CardContent className="grid gap-4">
           <div className="grid grid-cols-2 gap-6">
-            <Button variant="outline">
+            <Button
+              disabled={isSocialLoading}
+              variant="outline"
+              onClick={(e) => socialLogin(e, 'github')}
+            >
               <Icons.gitHub className="mr-2 h-4 w-4" />
               Github
             </Button>
-            <Button variant="outline" onClick={() => googleLogin()}>
+            <Button
+              disabled={isSocialLoading}
+              variant="outline"
+              onClick={(e) => socialLogin(e, 'google')}
+            >
               <Icons.google className="mr-2 h-4 w-4" />
               Google
             </Button>
@@ -193,6 +207,9 @@ export const LoginModal = () => {
               </div>{' '}
               <div className="pt-6">
                 <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}
                   로그인
                 </Button>
               </div>
@@ -200,7 +217,6 @@ export const LoginModal = () => {
           </Form>
         </CardContent>
         <CardFooter>
-          {/*<div className="flex w-full flex-col space-y-5">*/}
           <div className="flex flex-row space-x-2">
             <p className="grid gap-4">아직 계정이 없으신가요?</p>
             <p
