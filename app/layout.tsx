@@ -23,7 +23,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <ModalProvider />
           <AuthProvider />
           <Toaster />
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ReactQueryProvider>
               <div className="relative flex flex-col">
                 <SiteHeader />
