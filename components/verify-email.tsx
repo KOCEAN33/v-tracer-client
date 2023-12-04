@@ -1,8 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { z } from 'zod';
 
 import $api from '@/lib/axios-interceptor';
@@ -14,49 +13,44 @@ enum STATUS {
   FAILURE = 3,
 }
 
-const verifyCodeSchema = z.string().length(10);
+const verifyCodeSchema = z.string().length(12);
 
 export const VerifyEmail = () => {
   const searchParams = useSearchParams();
   const getVerifyCode = searchParams.get('verifyCode');
 
   const [loading, setLoading] = useState(true);
+  const [sent, setSent] = useState(false);
   const [status, setStatus] = useState(STATUS.NOCODE);
 
-  const { isError, refetch } = useQuery({
-    queryKey: ['verifyEmail'],
-    queryFn: () =>
-      $api
-        .post('auth/verify/email', { verifyCode: getVerifyCode })
-        .then((response) => {
-          if (response.data.statusCode === 201) {
-            setStatus(STATUS.SUCCESS);
-            return response.data;
-          }
-        })
-        .catch((e) => {
-          setStatus(STATUS.FAILURE);
-          return e.response.data;
-        }),
-    enabled: false,
-  });
-
-  const handleSendData = useCallback(() => {
-    refetch();
-  }, [refetch]);
+  const postVerifyCode = (code: string) => {
+    setSent(true);
+    return $api
+      .post('auth/verify/email', { verifyCode: code })
+      .then((response) => {
+        if (response.data.statusCode === 201) {
+          setStatus(STATUS.SUCCESS);
+          return response.data;
+        }
+      })
+      .catch((e) => {
+        setStatus(STATUS.FAILURE);
+        return e.response.data;
+      });
+  };
 
   useEffect(() => {
     setLoading(false);
     if (getVerifyCode) {
       const parse = verifyCodeSchema.safeParse(getVerifyCode);
-      if (parse.success) {
+      if (parse.success && !sent) {
         setStatus(STATUS.LOADING);
-        handleSendData();
+        postVerifyCode(getVerifyCode);
       } else {
         setStatus(STATUS.FAILURE);
       }
     }
-  }, [loading]);
+  }, [getVerifyCode, loading, sent]);
 
   let pageContent = (
     <div>
@@ -80,7 +74,7 @@ export const VerifyEmail = () => {
     );
   }
 
-  if (status === STATUS.FAILURE || isError) {
+  if (status === STATUS.FAILURE) {
     pageContent = (
       <div>
         <h1>코드 확인에 실패했습니다</h1>
