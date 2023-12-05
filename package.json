@@ -7,8 +7,7 @@
     "prebuild": "rimraf .next",
     "dev": "pnpm prebuild && cross-env NODE_ENV=development next dev",
     "build": "pnpm prebuild && next build",
-    "start": "pnpm prebuild && cross-env NODE_ENV=production next start",
-    "start:prod": "next start",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
