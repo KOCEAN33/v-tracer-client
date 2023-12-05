@@ -1,11 +1,14 @@
 {
   "name": "lastation-client",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
+  "description": "lastation WEB Client",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development next dev",
-    "build": "next build",
-    "start": "next start",
+    "prebuild": "rimraf .next",
+    "dev": "pnpm prebuild && cross-env NODE_ENV=development next dev",
+    "build": "pnpm prebuild && next build",
+    "start": "pnpm prebuild && cross-env NODE_ENV=production next start",
+    "start:prod": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -47,6 +50,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
     "react-hot-toast": "^2.4.1",
+    "rimraf": "^5.0.5",
     "sharp": "^0.33.0",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.3.2",
@@ -55,10 +59,10 @@
   },
   "devDependencies": {
     "@types/node": "^20.10.3",
-    "@types/react": "^18.2.41",
+    "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
-    "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "@typescript-eslint/parser": "^6.13.1",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
     "autoprefixer": "^10.4.16",
     "cross-env": "^7.0.3",
     "eslint": "^8.55.0",
@@ -67,9 +71,9 @@
     "eslint-plugin-prettier": "5.0.1",
     "eslint-plugin-react": "^7.33.2",
     "prettier": "^3.1.0",
-    "prettier-plugin-tailwindcss": "^0.5.7",
+    "prettier-plugin-tailwindcss": "^0.5.8",
     "tailwind-merge": "^2.1.0",
-    "tailwindcss": "^3.3.5"
+    "tailwindcss": "^3.3.6"
   },
   "volta": {
     "node": "20.10.0"
