@@ -19,9 +19,8 @@ export const VerifyEmail = () => {
   const searchParams = useSearchParams();
   const getVerifyCode = searchParams.get('verifyCode');
 
-  const [loading, setLoading] = useState(true);
-  const [sent, setSent] = useState(false);
-  const [status, setStatus] = useState(STATUS.NOCODE);
+  const [sent, setSent] = useState<boolean>(false);
+  const [status, setStatus] = useState<STATUS>(STATUS.NOCODE);
 
   const postVerifyCode = (code: string) => {
     setSent(true);
@@ -40,7 +39,6 @@ export const VerifyEmail = () => {
   };
 
   useEffect(() => {
-    setLoading(false);
     if (getVerifyCode) {
       const parse = verifyCodeSchema.safeParse(getVerifyCode);
       if (parse.success && !sent) {
@@ -50,7 +48,7 @@ export const VerifyEmail = () => {
         setStatus(STATUS.FAILURE);
       }
     }
-  }, [getVerifyCode, loading, sent]);
+  }, [getVerifyCode, sent]);
 
   let pageContent = (
     <div>

@@ -1,4 +1,4 @@
-import { VerifyEmail } from '@/components/verify-email';
+import { VerifyEmail } from '@/app/verify/email/_components/verify-email';
 
 export default function VerifyEmailPage() {
   return (

@@ -4,10 +4,13 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { deleteCookie, setCookie } from 'cookies-next';
+import toast from 'react-hot-toast';
 
-import $api, { API_URL } from '@/lib/axios-interceptor';
+import $api from '@/lib/axios-interceptor';
 import { cn } from '@/lib/utils';
 import { ModalType, useModal } from '@/hooks/use-modal-store';
+import { getActions } from '@/hooks/use-auth-store';
 
 import { Icons } from '@/components/icons';
 import { Input } from '@/components/ui/input';
@@ -28,10 +31,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { getActions } from '@/hooks/use-auth-store';
-import { deleteCookie, setCookie } from 'cookies-next';
-import toast from 'react-hot-toast';
-import { useState } from 'react';
+import { SocialLoginButton } from '@/components/social-login-button';
 
 const loginSchema = z.object({
   email: z
@@ -43,43 +43,8 @@ const loginSchema = z.object({
 
 export const LoginModal = () => {
   const { isOpen, onClose, type, onOpen } = useModal();
-  const [isSocialLoading, setSocialLoading] = useState<boolean>(false);
   const router = useRouter();
   const action = getActions();
-
-  const socialLogin = (event: React.MouseEvent, provider: string) => {
-    event.stopPropagation();
-    setSocialLoading(true);
-    window.open(`${API_URL}/api/auth/${provider}`, 'Auth');
-    if (typeof window !== 'undefined') {
-      window.addEventListener('message', (e) => {
-        if (e.origin !== API_URL) return;
-        const resData: any = JSON.parse(e.data);
-        if (resData) {
-          if (resData.statusCode == 409) {
-            toast.error('이 이메일은 이미 존재합니다');
-            onClose();
-            setSocialLoading(false);
-            return;
-          }
-          if (resData.statusCode == 200) {
-            deleteCookie('token-access');
-            setCookie('token-access', resData.accessToken);
-            action.setLoggedIn();
-            toast.success('로그인 성공');
-            setSocialLoading(false);
-            onClose();
-            router.refresh();
-          }
-        } else {
-          setSocialLoading(false);
-          toast.error('알 수 없는 오류로 로그인 실패');
-        }
-        setSocialLoading(false);
-        return;
-      });
-    }
-  };
 
   const isModalOpen = isOpen && type === 'logIn';
 
@@ -135,24 +100,7 @@ export const LoginModal = () => {
         </CardHeader>
 
         <CardContent className="grid gap-4">
-          <div className="grid grid-cols-2 gap-6">
-            <Button
-              disabled={isSocialLoading}
-              variant="outline"
-              onClick={(e) => socialLogin(e, 'github')}
-            >
-              <Icons.gitHub className="mr-2 h-4 w-4" />
-              Github
-            </Button>
-            <Button
-              disabled={isSocialLoading}
-              variant="outline"
-              onClick={(e) => socialLogin(e, 'google')}
-            >
-              <Icons.google className="mr-2 h-4 w-4" />
-              Google
-            </Button>
-          </div>
+          <SocialLoginButton />
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               <div className="relative">
@@ -226,7 +174,6 @@ export const LoginModal = () => {
               계정 만들기
             </p>
           </div>
-          {/*</div>*/}
         </CardFooter>
       </DialogContent>
     </Dialog>
