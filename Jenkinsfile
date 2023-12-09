@@ -25,7 +25,7 @@ pipeline {
                         }
                     }
                 }
-            
+
 
             stage('Deploying Docker Image to Container Registry') {
                 steps {
@@ -38,10 +38,53 @@ pipeline {
                 }
             }
 
-            // stage('Cleaning Up') {
-            //     steps{
-            //       sh "docker rmi --force $registry:$BUILD_NUMBER"
-            //     }
-            // }
+            stage('Cleaning ') {
+                steps{
+                    deleteDir()
+                }
+            }
+
+            stage('Git clone') {
+                steps{
+                  git credentialsId: '	lastation-gitops-jenkins', url:'git@github.com:KOCEAN33/lastation-GitOps.git', branch: 'main'
+                }
+            }
+
+            stage('Update GitOps File') {
+                steps {
+                    script {
+
+                        def filename = "environments/production/client/kustomization.yaml"
+                        def data = readYaml file: filename
+
+                        echo "data: ${data}"
+
+                        // Change Data
+                        data.images[0].newTag = env.IMAGE_VERSION
+
+                        sh "rm $filename"
+                        writeYaml file: filename, data: data
+
+                        echo "data after: ${data}"
+
+                    }
+                }
+            }
+
+            stage('Push git') {
+                steps {
+
+                    sshagent(credentials: ['lastation-gitops-jenkins']) {
+                    sh"""
+
+                    git add .
+                    git commit -m "UPDATE: client image ${env.IMAGE_VERSION}"
+                    git push origin main
+
+                    """
+                    }
+                }
+            }
+
     }
 }
