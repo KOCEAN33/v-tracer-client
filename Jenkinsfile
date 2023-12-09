@@ -57,15 +57,11 @@ pipeline {
                         def filename = "environments/production/client/kustomization.yaml"
                         def data = readYaml file: filename
 
-                        echo "data: ${data}"
-
                         // Change Data
-                        data.images[0].newTag = env.IMAGE_VERSION
+                        data.images[0].newTag = "v${env.IMAGE_VERSION}"
 
                         sh "rm $filename"
                         writeYaml file: filename, data: data
-
-                        echo "data after: ${data}"
 
                     }
                 }
