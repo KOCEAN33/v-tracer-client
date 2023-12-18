@@ -74,7 +74,7 @@ pipeline {
                     sh"""
 
                     git add .
-                    git commit -m "UPDATE: client image ${env.IMAGE_VERSION}"
+                    git commit -m "UPDATE: client image v${env.IMAGE_VERSION} (jenkins automatically)"
                     git push origin main
 
                     """
