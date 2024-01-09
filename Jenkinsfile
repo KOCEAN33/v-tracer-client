@@ -1,7 +1,7 @@
 pipeline {
     environment {
-    REGISTRY = "sjc.vultrcr.com/lastation"
-    registryCredential = 'lastation-cr'
+    REGISTRY = "sjc.vultrcr.com/xanny"
+    registryCredential = 'xanny-cr-credentials'
     IMAGE_NAME = 'client'
     }
 
@@ -9,7 +9,7 @@ pipeline {
     stages {
             stage('Cloning our Git') {
                 steps {
-                git credentialsId: 'jenkins-lastation-client', url:'git@github.com:KOCEAN33/lastation-client.git', branch: 'main'
+                git credentialsId: 'v-tracer-client-jenkins-ssh', url:'git@github.com:KOCEAN33/v-tracer-client.git', branch: 'main'
                 }
             }
 
@@ -30,8 +30,8 @@ pipeline {
             stage('Deploying Docker Image to Container Registry') {
                 steps {
                     script {
-                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'lastation-cr', usernameVariable: 'CR_USERNAME', passwordVariable: 'CR_PASSWORD']]) {
-                        sh "docker login https://sjc.vultrcr.com/lastation -u ${CR_USERNAME} -p ${CR_PASSWORD}"
+                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'xanny-cr-credentials', usernameVariable: 'CR_USERNAME', passwordVariable: 'CR_PASSWORD']]) {
+                        sh "docker login https://sjc.vultrcr.com/xanny -u ${CR_USERNAME} -p ${CR_PASSWORD}"
                         sh "docker push ${env.REGISTRY}/${env.IMAGE_NAME}:v${env.IMAGE_VERSION}"
                         }
                     }
@@ -46,7 +46,7 @@ pipeline {
 
             stage('Git clone') {
                 steps{
-                  git credentialsId: '	lastation-gitops-jenkins', url:'git@github.com:KOCEAN33/lastation-GitOps.git', branch: 'main'
+                  git credentialsId: 'v-tracer-gitops-jenkins-ssh', url:'git@github.com:KOCEAN33/v-tracer-gitops.git', branch: 'main'
                 }
             }
 
@@ -70,7 +70,7 @@ pipeline {
             stage('Push git') {
                 steps {
 
-                    sshagent(credentials: ['lastation-gitops-jenkins']) {
+                    sshagent(credentials: ['v-tracer-gitops-jenkins-ssh']) {
                     sh"""
 
                     git add .
