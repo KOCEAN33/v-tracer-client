@@ -26,11 +26,9 @@ export function SiteHeader() {
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-14 items-center">
         <MainNav />
-        {/*<MobileNav />*/}
+
         <nav className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            {/*<CommandMenu />*/}
-          </div>
+          <div className="w-full flex-1 md:w-auto md:flex-none"></div>
           <div className="flex items-center">
             <Link
               href={config.site.links.github}
