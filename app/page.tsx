@@ -1,4 +1,4 @@
-import { Activity, CreditCard, DollarSign, Users } from 'lucide-react';
+import { Hourglass, Percent, Tv, Users } from 'lucide-react';
 
 import { SimpleBoldCard } from '@/components/cards/simple-bold-card';
 import { MostPlayedGames } from '@/app/_components/most-played-games';
@@ -10,27 +10,27 @@ export default function Dashboard() {
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           <SimpleBoldCard
-            title="Total Revenue"
-            icon={<DollarSign className="h-4 w-4 text-muted-foreground" />}
-            mainValue="$45,231.89"
+            title="Total Stream Time"
+            icon={<Hourglass className="h-4 w-4 text-muted-foreground" />}
+            mainValue="2K Hours"
             subValue="+20.1%"
           />
           <SimpleBoldCard
-            title="Subscriptions"
-            icon={<Users className="h-4 w-4 text-muted-foreground" />}
-            mainValue="+2350"
+            title="Game Stream Ratio"
+            icon={<Percent className="h-4 w-4 text-muted-foreground" />}
+            mainValue="75.8%"
             subValue="+180.1%"
           />
           <SimpleBoldCard
-            title="Sales"
-            icon={<CreditCard className="h-4 w-4 text-muted-foreground" />}
-            mainValue="+12,234"
+            title="Streams Count"
+            icon={<Tv className="h-4 w-4 text-muted-foreground" />}
+            mainValue="+5042"
             subValue="+19%"
           />
           <SimpleBoldCard
-            title="Active Now"
-            icon={<Activity className="h-4 w-4 text-muted-foreground" />}
-            mainValue="+573"
+            title="Vtuber Count"
+            icon={<Users className="h-4 w-4 text-muted-foreground" />}
+            mainValue="+15"
             subValue="+201"
           />
         </div>

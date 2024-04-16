@@ -33,6 +33,7 @@ export function UserAvatarMenu() {
         userId: data?.userId,
       })
       .catch((e) => {
+        console.log(e);
         toast.error(e.response.data.message);
       })
       .finally(() => {
@@ -40,7 +41,7 @@ export function UserAvatarMenu() {
         action.setLogout();
         toast.success('로그아웃 되었습니다');
         // router.refresh(); react-query의 캐시 데이터가 잠깐동안 사용가능함
-        window.location.reload();
+        // window.location.reload();
       });
   };
 

@@ -51,7 +51,9 @@ export const MostPlayedGames = () => {
                 <TableCell>
                   <div className="text-lg font-black">{game.title}</div>
                 </TableCell>
-                <TableCell className="text-right">{game.totalTime}</TableCell>
+                <TableCell className="text-right font-bold">
+                  {game.totalTime}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
