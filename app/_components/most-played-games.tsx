@@ -1,3 +1,5 @@
+'use client';
+
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -18,12 +20,11 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+import { useMostPlayedGames } from '@/hooks/use-most-played-games';
+
 export const MostPlayedGames = () => {
-  const games = [
-    { id: 1, title: 'エーペックスレジェンズ', totalTime: 1251251 },
-    { id: 3, title: 'VALORANT', totalTime: 125125 },
-    { id: 4, title: 'パルワールド', totalTime: 12125 },
-  ];
+  const { data, isError, isLoading } = useMostPlayedGames();
+
   return (
     <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
       <CardHeader className="flex flex-row items-center">
@@ -47,13 +48,13 @@ export const MostPlayedGames = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {games.map((game) => (
-              <TableRow key={game.id}>
+            {data?.map((game) => (
+              <TableRow key={game.gameId}>
                 <TableCell>
-                  <div className="text-lg font-black">{game.title}</div>
+                  <div className="text-lg font-black">{game.gameTitle}</div>
                 </TableCell>
                 <TableCell className="text-right font-bold">
-                  {game.totalTime}
+                  {game.duration}
                 </TableCell>
               </TableRow>
             ))}
