@@ -14,20 +14,20 @@ export const RecentStreams = () => {
       </CardHeader>
       <CardContent className="grid gap-8">
         {data?.map((recentStream) => (
-          <div className="flex items-center gap-4" key={recentStream.id}>
+          <div className="flex items-center gap-4" key={recentStream.streamId}>
             <Avatar className="hidden h-9 w-9 sm:flex">
               <AvatarImage src={recentStream.image} alt="Avatar" />
               <AvatarFallback>OM</AvatarFallback>
             </Avatar>
             <div className="grid gap-1">
-              <p className="text-md font-medium leading-none">
-                {recentStream.title}
+              <p className="text-md truncate font-medium leading-none">
+                {recentStream.streamTitle}
               </p>
-              {/*<p className="text-sm text-muted-foreground">*/}
-              {/*  {recentStream.name}*/}
-              {/*</p>*/}
+              <p className="truncate text-sm text-muted-foreground">
+                {recentStream.gameTitle}
+              </p>
             </div>
-            <div className="ml-auto font-medium">{recentStream.duration}</div>
+            {/*<div className="ml-auto font-medium">{recentStream.duration}</div>*/}
           </div>
         ))}
       </CardContent>

@@ -1,20 +1,20 @@
 import { z } from 'zod';
-import $api from '@/lib/axios-interceptor';
 import { useQuery } from '@tanstack/react-query';
 
+import $api from '@/lib/axios-interceptor';
+
 const RecentStreamsSchema = z.object({
-  id: z.number(),
-  title: z.string(),
+  streamId: z.string(),
+  streamTitle: z.string(),
   image: z.string(),
-  duration: z.number(),
+  gameTitle: z.number(),
 });
 
 type RecentStreams = z.infer<typeof RecentStreamsSchema>;
 
 const getRecentStreams = async (): Promise<RecentStreams[]> => {
   const res = await $api.get('/streams/recent');
-  console.log(res.data);
-  return res.data.result;
+  return res.data.data;
 };
 
 export const useRecentStreams = () => {
