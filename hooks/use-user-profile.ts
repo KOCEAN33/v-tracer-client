@@ -22,7 +22,7 @@ export const useUserProfile = () => {
     queryKey: ['myProfile'],
     queryFn: () => getUserProfile(),
     enabled: login,
-    gcTime : 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
   });
