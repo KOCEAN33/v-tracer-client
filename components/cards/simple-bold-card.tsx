@@ -10,9 +10,16 @@ export const SimpleBoldCard = ({
 }: {
   title: string;
   icon: React.ReactNode;
-  mainValue: string;
-  subValue: string;
+  mainValue: string | undefined;
+  subValue: string | undefined;
 }) => {
+  const increaseDecrease = (value: string | undefined): string => {
+    if (Number(value) < 0) {
+      return '감소';
+    }
+    return '증가';
+  };
+
   return (
     <Card x-chunk="dashboard-01-chunk-0">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -22,7 +29,7 @@ export const SimpleBoldCard = ({
       <CardContent>
         <div className="text-2xl font-bold">{mainValue}</div>
         <p className="text-xs text-muted-foreground">
-          {subValue} from last month
+          지난 달에 비해 {subValue}% {increaseDecrease(subValue)}
         </p>
       </CardContent>
     </Card>
