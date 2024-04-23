@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import { getActions } from '@/hooks/use-auth-store';
+import { v4 } from 'uuid';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const action = getActions();
+
+const correlationId = getCookie('x-correlation-id') || v4();
+setCookie('x-correlation-id', correlationId);
 
 const $api = axios.create({
   validateStatus: function (status) {
@@ -15,6 +19,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use(async (config) => {
   config.headers.authorization = `Bearer ${getCookie('token-access')}`;
+  config.headers['x-correlation-id'] = getCookie('x-correlation-id');
   return config;
 });
 
