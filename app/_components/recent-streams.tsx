@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRecentStreams } from '@/hooks/use-recent-streams';
+import Link from 'next/link';
 
 export const RecentStreams = () => {
   const { data, isLoading, isError } = useRecentStreams();
@@ -19,14 +20,20 @@ export const RecentStreams = () => {
               <AvatarImage src={recentStream.image} alt="Avatar" />
               <AvatarFallback>OM</AvatarFallback>
             </Avatar>
-            <div className="grid gap-1">
-              <p className="text-md truncate font-medium leading-none">
-                {recentStream.streamTitle}
-              </p>
-              <p className="truncate text-sm text-muted-foreground">
-                {recentStream.gameTitle}
-              </p>
-            </div>
+            <Link
+              href={`https://youtube.com/watch?v=${recentStream.streamId}`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className="grid gap-1">
+                <p className="text-md truncate font-medium leading-none">
+                  {recentStream.streamTitle}
+                </p>
+                <p className="truncate text-sm text-muted-foreground">
+                  {recentStream.gameTitle}
+                </p>
+              </div>
+            </Link>
             {/*<div className="ml-auto font-medium">{recentStream.duration}</div>*/}
           </div>
         ))}

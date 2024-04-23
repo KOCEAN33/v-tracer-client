@@ -1,13 +1,11 @@
 import './globals.css';
 import '../public/static/fonts/pretendardvariable.css';
-
-import { SiteHeader } from '@/components/navbar/site-header';
+import { Toaster } from 'react-hot-toast';
 
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ModalProvider } from '@/components/providers/modal-provider';
 import { AuthProvider } from '@/components/providers/auth-provider';
 import { ReactQueryProvider } from '@/components/providers/react-query-provider';
-import { Toaster } from 'react-hot-toast';
 import { Header } from '@/components/navbar/header';
 
 export const metadata = {
@@ -27,7 +25,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ReactQueryProvider>
               <div className="relative flex flex-col">
-                {/*<SiteHeader />*/}
                 <Header />
               </div>
               {children}
