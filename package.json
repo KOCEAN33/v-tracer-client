@@ -2,7 +2,7 @@
   "name": "v-tracer-client",
   "version": "0.1.6",
   "private": true,
-  "description": "lastation WEB Client",
+  "description": "v-tracer front-end",
   "scripts": {
     "prebuild": "rimraf .next",
     "dev": "pnpm prebuild && cross-env NODE_ENV=development next dev",
