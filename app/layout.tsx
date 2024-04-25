@@ -9,8 +9,8 @@ import { ReactQueryProvider } from '@/components/providers/react-query-provider'
 import { Header } from '@/components/navbar/header';
 
 export const metadata = {
-  title: 'tries.io',
-  description: 'by tries.io',
+  title: 'v-tracer',
+  description: 'v-tracer',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
