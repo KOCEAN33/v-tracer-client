@@ -16,7 +16,7 @@ export const SocialLoginButton = () => {
 
   const socialLogin = (event: React.MouseEvent, provider: string) => {
     event.stopPropagation();
-    window.open(`${API_URL}/api/auth/${provider}`, 'Auth');
+    window.open(`${API_URL}/api/v1/auth/${provider}`, 'Auth');
     if (typeof window !== 'undefined') {
       window.addEventListener('message', (e) => {
         if (e.origin !== API_URL) return;

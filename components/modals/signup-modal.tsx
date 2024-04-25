@@ -57,7 +57,7 @@ export function SignUpModal() {
 
   const onSubmit = (values: z.infer<typeof signUpSchema>) => {
     $api
-      .post('/auth/signup', values)
+      .post('v1/auth/signup', values)
       .then((response) => {
         if (response.data.statusCode === 201) {
           toast.success(response.data.message);

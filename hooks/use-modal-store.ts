@@ -3,9 +3,6 @@ import { create } from 'zustand';
 export type ModalType = 'logIn' | 'signUp';
 
 interface ModalData {
-  // server?: Server;
-  // channel?: Channel;
-  // channelType?: ChannelType;
   apiUrl?: string;
   query?: Record<string, any>;
 }

@@ -28,7 +28,7 @@ export function UserAvatarMenu() {
 
   const logOut = () => {
     $api
-      .post('/auth/logout', {
+      .post('v1/auth/logout', {
         userId: data?.userId,
       })
       .catch((e) => {

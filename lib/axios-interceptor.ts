@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
-import { getActions } from '@/hooks/use-auth-store';
 import { v4 } from 'uuid';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+
+import { getActions } from '@/hooks/use-auth-store';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const action = getActions();
@@ -36,7 +37,7 @@ $api.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        const response = await axios.get(`${API_URL}/api/auth/refresh`, {
+        const response = await axios.get(`${API_URL}/api/v1/auth/refresh`, {
           withCredentials: true,
         });
 
@@ -55,7 +56,6 @@ $api.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-    // return error;
   },
 );
 

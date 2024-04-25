@@ -12,7 +12,7 @@ const UserProfileSchema = z.object({
 type UserProfile = z.infer<typeof UserProfileSchema>;
 
 const getUserProfile = async (): Promise<UserProfile> => {
-  const res = await $api.get('/users/getme');
+  const res = await $api.get('v1/users/getme');
   return res.data.data;
 };
 

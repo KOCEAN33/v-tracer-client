@@ -57,7 +57,7 @@ export const LoginModal = () => {
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
     $api
-      .post('/auth/login', values)
+      .post('v1/auth/login', values)
       .then((response) => {
         deleteCookie('token-access');
 
