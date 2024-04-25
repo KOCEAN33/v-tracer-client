@@ -25,7 +25,7 @@ export const VerifyEmail = () => {
   const postVerifyCode = (code: string) => {
     setSent(true);
     return $api
-      .post('auth/verify/email', { verifyCode: code })
+      .post('v1/auth/verify/email', { verifyCode: code })
       .then((response) => {
         if (response.data.statusCode === 201) {
           setStatus(STATUS.SUCCESS);

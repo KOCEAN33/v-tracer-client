@@ -1,11 +1,11 @@
 'use client';
 
-import { Separator } from '@/components/ui/separator';
-
-import { useAuthStore } from '@/hooks/use-auth-store';
-import { redirect } from 'next/navigation';
-import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
+
+import { Separator } from '@/components/ui/separator';
+import { useAuthStore } from '@/hooks/use-auth-store';
 
 export default function SettingsProfilePage() {
   const { isLoggedIn } = useAuthStore();

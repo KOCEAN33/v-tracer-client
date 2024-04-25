@@ -11,7 +11,7 @@ const VtuberCountSchema = z.object({
 type VtuberCount = z.infer<typeof VtuberCountSchema>;
 
 const apiRequest = async (): Promise<VtuberCount> => {
-  const res = await $api.get('/vtubers/count');
+  const res = await $api.get('v1/vtubers/count');
   return res.data.data;
 };
 

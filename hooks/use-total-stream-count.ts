@@ -11,7 +11,7 @@ const TotalStreamCountSchema = z.object({
 type TotalStreamCount = z.infer<typeof TotalStreamCountSchema>;
 
 const apiRequest = async (): Promise<TotalStreamCount> => {
-  const res = await $api.get('/streams/count');
+  const res = await $api.get('v1/streams/count');
   return res.data.data;
 };
 

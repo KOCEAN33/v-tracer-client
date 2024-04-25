@@ -11,7 +11,7 @@ const GameStreamRatioSchema = z.object({
 type GameStreamRatio = z.infer<typeof GameStreamRatioSchema>;
 
 const apiRequest = async (): Promise<GameStreamRatio> => {
-  const res = await $api.get('/streams/ratio/game');
+  const res = await $api.get('v1/streams/ratio/game');
   return res.data.data;
 };
 

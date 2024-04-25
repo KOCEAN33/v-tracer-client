@@ -19,6 +19,7 @@ import {
 
 import { getActions } from '@/hooks/use-auth-store';
 import { useUserProfile } from '@/hooks/use-user-profile';
+import Link from 'next/link';
 
 export function UserAvatarMenu() {
   const action = getActions();
@@ -28,7 +29,7 @@ export function UserAvatarMenu() {
 
   const logOut = () => {
     $api
-      .post('/auth/logout', {
+      .post('v1/auth/logout', {
         userId: data?.userId,
       })
       .catch((e) => {
@@ -63,7 +64,11 @@ export function UserAvatarMenu() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={'/user'} rel="noopener noreferrer">
+                Settings
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => logOut()} className="text-red-600">

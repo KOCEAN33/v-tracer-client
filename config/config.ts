@@ -3,7 +3,7 @@ import type { Config } from './config.interface';
 export const config: Config = {
   site: {
     name: 'V-Tracer',
-    description: 'Real user reviews for your SAAS choice',
+    description: 'Track V-Tubers streaming games',
     links: {
       twitter: 'https://twitter.com',
       github: 'https://github.com',

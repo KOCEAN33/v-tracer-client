@@ -12,7 +12,7 @@ const MostPlayedGamesSchema = z.object({
 type MostPlayedGames = z.infer<typeof MostPlayedGamesSchema>;
 
 const getMostPlayedGames = async (): Promise<MostPlayedGames[]> => {
-  const res = await $api.get('/games/ranking');
+  const res = await $api.get('v1/games/ranking');
   return res.data.data;
 };
 

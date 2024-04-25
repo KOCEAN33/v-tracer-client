@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Package2 } from 'lucide-react';
 
 import { UserAvatarMenu } from '@/components/navbar/user-menu';
 import { ModeToggle } from '@/components/navbar/dark-mode-toggle';

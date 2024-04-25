@@ -13,7 +13,7 @@ const RecentStreamsSchema = z.object({
 type RecentStreams = z.infer<typeof RecentStreamsSchema>;
 
 const getRecentStreams = async (): Promise<RecentStreams[]> => {
-  const res = await $api.get('/streams/recent');
+  const res = await $api.get('v1/streams/recent');
   return res.data.data;
 };
 
