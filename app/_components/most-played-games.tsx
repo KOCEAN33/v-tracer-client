@@ -23,7 +23,7 @@ import {
 import { useMostPlayedGames } from '@/hooks/use-most-played-games';
 
 export const MostPlayedGames = () => {
-  const { data, isError, isLoading } = useMostPlayedGames();
+  const { data } = useMostPlayedGames();
 
   return (
     <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
