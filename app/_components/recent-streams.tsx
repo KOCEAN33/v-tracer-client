@@ -6,7 +6,7 @@ import { useRecentStreams } from '@/hooks/use-recent-streams';
 import Link from 'next/link';
 
 export const RecentStreams = () => {
-  const { data, isLoading, isError } = useRecentStreams();
+  const { data } = useRecentStreams();
 
   return (
     <Card x-chunk="dashboard-01-chunk-5">
